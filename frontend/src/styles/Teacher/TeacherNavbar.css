@@ -1,0 +1,62 @@
+@font-face {
+    font-family: montserrat-medium;
+    src: url(../../fonts/Montserrat-Medium.ttf);
+}
+
+
+.navbar {
+    font-family: montserrat-medium;
+    background-color: #40513B;
+    width: 20%;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: blue
+}
+
+.active {
+    /* text-decoration: underline; */
+    color: #020D21
+}
+
+
+.navbar li {
+    list-style: none;
+    /* background-color: red */
+}
+
+.navbar ul :first-child {
+    margin-top: 2em;
+}
+
+.nav--items {
+    margin: 0;
+    padding: 0;
+    padding-left: 0.8em;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 100vh;
+
+    gap: 1em;
+}
+
+
+.logout {
+    color: white;
+    margin-top: 1.7em;
+}
+
+.omegaSemester {
+    position: absolute;
+    bottom: 0px;
+    margin-bottom: 0.5em;
+    font-size: 0.7rem
+}

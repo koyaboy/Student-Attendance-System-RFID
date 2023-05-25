@@ -1,0 +1,114 @@
+/* @font-face {
+  font-family: merriweather-bold;
+  src: url(../fonts/Merriweather-Bold.ttf);
+}
+
+@font-face {
+  font-family: montserrat-extralight;
+  src: url(../fonts/Montserrat-ExtraLight.ttf);
+}
+
+@font-face {
+  font-family: montserrat-bold;
+  src: url(../fonts/Montserrat-Bold.ttf);
+}
+
+@font-face {
+  font-family: montserrat-medium;
+  src: url(../fonts/Montserrat-Medium.ttf);
+}
+
+@font-face {
+  font-family: montserrat-regular;
+  src: url(../fonts/Montserrat-Regular.ttf);
+}
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: montserrat-regular;
+
+
+}
+
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
+
+
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url("../../public/images/Login/background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+}
+
+hr {
+  color: black;
+  margin-bottom: 2em;
+}
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  background-color: #817980;
+  opacity: 0.9;
+  width: 40%;
+  padding: 0.5em 1em;
+}
+
+.login--heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.login--input {
+  width: 90%;
+  font-size: 1.1rem;
+  padding-left: 0.5em;
+}
+
+.cu-logo-container,
+.login--btn--container {
+  text-align: center;
+}
+
+.cu-logo {
+  width: 25%;
+}
+
+.welcome-back {
+  font-family: merriweather-bold;
+  font-size: 1.5rem;
+}
+
+.book {
+  width: 40px;
+  height: 30px;
+}
+
+.login--btn {
+  color: white;
+  background-color: #40513B;
+  font-family: montserrat-bold;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  border-style: none;
+  width: 30%;
+}
+
+.error-message {
+  color: red
+} */

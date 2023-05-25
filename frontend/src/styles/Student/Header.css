@@ -1,0 +1,46 @@
+@font-face {
+    font-family: montserrat-medium;
+    src: url(../../fonts/Montserrat-Medium.ttf);
+}
+
+@font-face {
+    font-family: merriweather-bold;
+    src: url(../../fonts/Merriweather-Bold.ttf);
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.2em;
+    padding-right: 2em;
+    padding-left: 1.2em;
+    /* background-color: red; */
+
+}
+
+.heading--text {
+    font-family: montserrat-medium;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+    text-align: right;
+    justify-content: center;
+}
+
+.studentImage {
+    width: 65px;
+}
+
+.course {
+    font-size: 0.9rem;
+}
+
+.matric--number {
+    font-family: merriweather-bold;
+    font-size: 0.8rem;
+}

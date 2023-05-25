@@ -1,0 +1,31 @@
+@font-face {
+    font-family: montserrat-extralight;
+    src: url(../fonts/Montserrat-ExtraLight.ttf);
+}
+
+@font-face {
+    font-family: montserrat-regular;
+    src: url(../fonts/Montserrat-Regular.ttf);
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    background-color: #9DC08B;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.footer--logo {
+    width: 65px;
+}
+
+.quote {
+    font-family: montserrat-extralight;
+}
+
+.quoteMaster {
+    font-family: montserrat-regular;
+}

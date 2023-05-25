@@ -1,0 +1,113 @@
+@font-face {
+    font-family: merriweather-bold;
+    src: url(../fonts/Merriweather-Bold.ttf);
+}
+
+@font-face {
+    font-family: montserrat-extralight;
+    src: url(../fonts/Montserrat-ExtraLight.ttf);
+}
+
+@font-face {
+    font-family: montserrat-bold;
+    src: url(../fonts/Montserrat-Bold.ttf);
+}
+
+@font-face {
+    font-family: montserrat-medium;
+    src: url(../fonts/Montserrat-Medium.ttf);
+}
+
+@font-face {
+    font-family: montserrat-regular;
+    src: url(../fonts/Montserrat-Regular.ttf);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: montserrat-regular;
+}
+
+h3 {
+    margin: 0;
+    padding: 0;
+    font-family: merriweather-bold;
+}
+
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url("../../public/images/Login/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+hr {
+    border: none;
+    border-top: 2px solid #000;
+    margin-bottom: 2em;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    background-color: #817980;
+    opacity: 0.9;
+    width: 40%;
+    padding: 0.5em 1em;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.login--heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1em;
+}
+
+.login--input {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 0.5em;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 1em;
+}
+
+.cu-logo-container,
+.login--btn--container {
+    text-align: center;
+}
+
+.cu-logo {
+    width: 25%;
+}
+
+.welcome-back {
+    font-size: 1.5rem;
+}
+
+.book {
+    width: 40px;
+    height: 30px;
+}
+
+.login--btn {
+    color: white;
+    background-color: #40513B;
+    font-family: montserrat-bold;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+}
+
+.error-message {
+    color: red;
+}

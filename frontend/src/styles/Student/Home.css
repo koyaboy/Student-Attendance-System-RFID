@@ -1,0 +1,40 @@
+.card {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 40%;
+    background: linear-gradient(135deg, #008080, #00bfbf);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.course-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.course-code {
+    font-size: 14px;
+    color: #888;
+    margin: 0;
+}
+
+.course-description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.course-details {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
