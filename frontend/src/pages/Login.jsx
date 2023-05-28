@@ -53,6 +53,7 @@ export default function Login() {
                         placeholder="Username"
                         name="username"
                         onChange={handleChange}
+                        value={data.username}
                         className="login--input" />
                     <br />
                     <br />
@@ -61,6 +62,7 @@ export default function Login() {
                         placeholder="Password"
                         name="password"
                         onChange={handleChange}
+                        value={data.password}
                         className="login--input" />
                     <br />
                     <br />

@@ -10,7 +10,8 @@ const router = express.Router()
 const { loginUser,
     viewAttendance,
     complaintsForm,
-    addStudent } = require("../controllers/userController")
+    addStudent,
+    getCourses } = require("../controllers/userController")
 
 
 // STUDENT ROUTES
@@ -24,9 +25,13 @@ router.use(authMiddleware)
 
 router.get("/viewattendance", viewAttendance)
 
-router.post("/complaintsForm", (req, res) => {
-    res.json({ msg: "Complaints" })
+router.post("viewattendance", (req, res) => {
+    res.json({ msg: "Attendance uploaded" })
 })
+
+router.post("/complaintsform", complaintsForm)
+
+router.get("/courses/:username", getCourses)
 
 
 

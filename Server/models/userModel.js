@@ -17,8 +17,9 @@ const userSchema = new Schema({
         required: true,
     },
 
-    course: {
-        type: String,
+    courses: {
+        type: [Schema.Types.ObjectId],
+        ref: "Course",
     },
 
     level: {

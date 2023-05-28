@@ -6,9 +6,9 @@ import axios from "axios";
 
 export default function ViewAttendance() {
     const [data, setData] = useState("");
-    const { user } = useAuthContext(
+    const { user } = useAuthContext()
 
-    )
+
     axios.get("http://localhost:4000/viewattendance", {
         headers: {
             Authorization: `Bearer ${user.token}`
@@ -23,14 +23,14 @@ export default function ViewAttendance() {
 
     return (
         <>
+
             <table>
                 <thead>
                     <tr>
                         {/* <th>Course Code</th>
                         <th>Times Present</th>
                         <th>Times Expected</th>
-                        <th>Percentage</th>
-                        <th></th> */}
+                        <th>Percentage</th> */}
                         <th>{data}</th>
                     </tr>
                 </thead>

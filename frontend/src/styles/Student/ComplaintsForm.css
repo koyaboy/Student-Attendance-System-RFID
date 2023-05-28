@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
     font-family: montserrat-bold;
     src: url(../../fonts/Montserrat-Bold.ttf);
 }
@@ -81,4 +81,116 @@ label {
     border: none;
 
 
+} */
+
+@font-face {
+    font-family: montserrat-bold;
+    src: url(../../fonts/Montserrat-Bold.ttf);
+}
+
+@font-face {
+    font-family: montserrat-medium;
+    src: url(../../fonts/Montserrat-Medium.ttf);
+}
+
+@font-face {
+    font-family: merriweather-regular;
+    src: url(../../fonts/Merriweather-Regular.ttf);
+}
+
+.container {
+    text-align: center;
+    width: 70%;
+    margin: 0 auto;
+    padding-top: 2rem;
+}
+
+.title {
+    font-family: "merriweather-regular", sans-serif;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.complaints {
+    color: red;
+}
+
+.form {
+    background-color: grey;
+    width: 100%;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+form {
+    font-family: "montserrat-medium", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    text-align: left;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-family: "montserrat-medium", sans-serif;
+    font-size: 1rem;
+}
+
+select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-family: "montserrat-medium", sans-serif;
+    font-size: 1rem;
+}
+
+button.submit {
+    font-family: "montserrat-bold", sans-serif;
+    font-size: 1rem;
+    color: white;
+    background-color: #40513b;
+    width: 50%;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.submit:hover {
+    background-color: #344534;
+}
+
+/* Additional styles for file input */
+input[type="file"] {
+    display: none;
+}
+
+.photoEvidence {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    font-family: "montserrat-medium", sans-serif;
+    font-size: 1rem;
+}
+
+.photoEvidence:hover {
+    background-color: #f2f2f2;
 }
