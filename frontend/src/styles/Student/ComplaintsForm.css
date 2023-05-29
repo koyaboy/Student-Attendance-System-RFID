@@ -116,6 +116,13 @@ label {
     color: red;
 }
 
+.message {
+    color: green;
+    margin-bottom: 1em;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
 .complaintsform {
     background-color: #817980;
     width: 100%;
@@ -170,6 +177,7 @@ button.submit {
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-bottom: 1em;
 }
 
 button.submit:hover {

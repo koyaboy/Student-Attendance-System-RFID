@@ -10,15 +10,13 @@ export default function ComplaintsForm() {
     const [dateMissed, setDateMissed] = useState("")
     const [reason, setReason] = useState("")
 
+    const [successful, setSuccessful] = useState(false)
+    const [error, setError] = useState("")
+
     const { user } = useAuthContext()
-
-
-    console.log(selectedCourse, dateMissed, reason);
-
+    const username = user.username
 
     useEffect(() => {
-        const username = "19cg026042"
-
         axios.get(`http://localhost:4000/courses/${username}`, {
             headers: {
                 Authorization: `Bearer ${user.token}`
@@ -31,7 +29,8 @@ export default function ComplaintsForm() {
     function handleSubmit(e) {
         e.preventDefault()
 
-        axios.post("http://localhost:4000/complaintsform", {
+        axios.post(`http://localhost:4000/complaintsform/${username}`, {
+            username,
             selectedCourse,
             dateMissed,
             reason
@@ -40,8 +39,17 @@ export default function ComplaintsForm() {
                 Authorization: `Bearer ${user.token}`
             }
         })
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+            .then((res) => {
+                setSuccessful(true)
+                console.log(res);
+                setSelectedCourse("")
+                setDateMissed("")
+                setReason("")
+            })
+            .catch(err => {
+                setSuccessful(false)
+                setError("Something went wrong")
+            })
     }
 
     return (
@@ -51,6 +59,11 @@ export default function ComplaintsForm() {
 
             <div className="complaintsform">
                 <form onSubmit={handleSubmit}>
+                    <div className="message">
+                        {successful && <div>Complaint sent successfully</div>}
+                        {error && <div>Error occurred</div>}
+                    </div>
+
                     <label htmlFor="classMissed">Class Missed</label>
                     <br />
                     <select
@@ -62,7 +75,7 @@ export default function ComplaintsForm() {
                         <option value="">-- SELECT COURSE --</option>
                         {/* <option value="CSC 424">CSC 424</option> */}
                         {courses.map((course) =>
-                            <option value={course._id} key={course._id}>
+                            <option value={course.code} key={course._id}>
                                 {course.code}
                             </option>
                         )}
@@ -109,6 +122,12 @@ export default function ComplaintsForm() {
                     />
                     <br />
                     <button className="submit">SUBMIT</button>
+
+                    <div className="message">
+                        {successful && <div>Complaint sent successfully</div>}
+                        {error && <div>Error occurred</div>}
+                    </div>
+
                 </form>
             </div>
 

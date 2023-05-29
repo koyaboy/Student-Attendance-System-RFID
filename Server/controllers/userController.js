@@ -57,21 +57,25 @@ const viewAttendance = async (req, res) => {
 
 const complaintsForm = async (req, res) => {
 
+    const { username } = req.params
     const { selectedCourse, dateMissed, reason } = req.body
 
     const newComplaint = {
+        username,
         selectedCourse: selectedCourse,
         dateMissed: dateMissed,
         reason: reason
     }
 
-    Complaints.create(newComplaint)
-        .then((complaint) => {
-            res.status(200).json({ message: complaint })
-        })
-        .catch((error) => {
-            console.log(error)
-        });
+    try {
+        const complaint = await Complaints.create(newComplaint)
+        res.status(200).json({ message: complaint })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "An error occurred" })
+    }
+
+
 
 }
 
@@ -107,6 +111,19 @@ const addStudent = async (req, res) => {
     res.json({ msg: "add Student" })
 }
 
+const getComplaints = async (req, res) => {
+
+    try {
+        const complaints = await Complaints.find({}).populate("selectedCourse")
+        res.status(200).json(complaints)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: 'Failed to retrieve complaints' });
+
+    }
+
+}
+
 
 
 module.exports = {
@@ -115,7 +132,8 @@ module.exports = {
     complaintsForm,
     addStudent,
     getCourses,
-    complaintsForm
+    complaintsForm,
+    getComplaints
 }
 
 //6472269d27849edf3ecbe348 (csc 424)

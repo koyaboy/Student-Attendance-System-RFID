@@ -11,7 +11,8 @@ const { loginUser,
     viewAttendance,
     complaintsForm,
     addStudent,
-    getCourses } = require("../controllers/userController")
+    getCourses,
+    getComplaints } = require("../controllers/userController")
 
 
 // STUDENT ROUTES
@@ -29,7 +30,7 @@ router.post("viewattendance", (req, res) => {
     res.json({ msg: "Attendance uploaded" })
 })
 
-router.post("/complaintsform", complaintsForm)
+router.post("/complaintsform/:username", complaintsForm)
 
 router.get("/courses/:username", getCourses)
 
@@ -39,6 +40,7 @@ router.get("/courses/:username", getCourses)
 
 //ADMIN ROUTES
 
+router.get("/admin/complaints", getComplaints)
 router.post("/admin/addStudent", addStudent)
 
 module.exports = router
