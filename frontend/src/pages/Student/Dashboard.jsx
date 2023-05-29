@@ -1,19 +1,17 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios"
 
 import StudentNavbar from "../../components/Student/StudentNavbar";
 import Footer from "../../components/Footer";
 import Header from "../../components/Student/Header";
 import "../../styles/Student/Dashboard.css"
+import { useAuthContext } from "../../hooks/useAuthContext";
+import Home from "./Home";
+
 
 export default function Dashboard() {
-
-    useEffect(() => {
-        document.body.style.margin = 0;
-        document.body.style.padding = 0;
-    }, [])
-
     return (
         <div className="dashboard">
 

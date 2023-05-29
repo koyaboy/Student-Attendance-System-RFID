@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../../styles/Navbar.css"
 import { useLogout } from "../../hooks/useLogout"
 
+
 export default function StudentNavbar() {
     const { logout } = useLogout()
 

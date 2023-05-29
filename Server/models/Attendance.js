@@ -17,6 +17,7 @@ const attendanceSchema = new Schema({
         type: Date,
         default: Date.now
     },
+
     present: {
         type: Boolean,
         default: true

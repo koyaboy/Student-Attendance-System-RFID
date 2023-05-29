@@ -51,7 +51,7 @@ function App() {
 
         {user ? (
           <Route path="/" element={<Dashboard />}>
-            <Route path="/" element={<Home />} />
+            <Route path="" element={<Home />} />
             <Route path="/viewattendance" element={<ViewAttendance />} />
             <Route path="/complaintsform" element={<ComplaintsForm />} />
           </Route>

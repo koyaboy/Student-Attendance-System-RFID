@@ -1,7 +1,10 @@
 import React from "react"
 import "../../styles/Student/Header.css"
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 export default function Header() {
+
+    const { user } = useAuthContext()
     return (
         <div className="heading">
             <img src="../images/Dashboard/student.png"
@@ -9,9 +12,9 @@ export default function Header() {
                 alt="studentImage" />
 
             <div className="heading--text">
-                <p className="name">ADEKOYA IREOLUWATOMIWA</p>
+                <p className="name">{user.firstname} {user.lastname} </p>
                 <p className="course">COMPUTER SCIENCE</p>
-                <p className="matric--number"><strong>19CG026387</strong></p>
+                <p className="matric--number"><strong>{user.username}</strong></p>
             </div>
         </div>
     )

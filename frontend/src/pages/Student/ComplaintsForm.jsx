@@ -49,7 +49,7 @@ export default function ComplaintsForm() {
             <h2 className="title">WE ARE HERE TO ASSIST YOU !!</h2>
             <p className="complaints"><strong>Please lodge complaints within 48 hours of attendance issue</strong></p>
 
-            <div className="form">
+            <div className="complaintsform">
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="classMissed">Class Missed</label>
                     <br />

@@ -17,6 +17,16 @@ const userSchema = new Schema({
         required: true,
     },
 
+    firstname: {
+        type: String,
+        required: true,
+    },
+
+    lastname: {
+        type: String,
+        required: true,
+    },
+
     courses: {
         type: [Schema.Types.ObjectId],
         ref: "Course",
