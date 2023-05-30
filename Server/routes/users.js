@@ -12,10 +12,13 @@ const { loginUser,
     complaintsForm,
     addStudent,
     getCourses,
-    getComplaints } = require("../controllers/userController")
+    getComplaints,
+    createCourse,
+    adminGetCourses,
+    adminGetStudents,
+    adminGetTeachers } = require("../controllers/userController")
 
 
-// STUDENT ROUTES
 
 router.post("/login", loginUser)
 
@@ -23,6 +26,9 @@ router.post("/login", loginUser)
 //Middleware
 
 router.use(authMiddleware)
+
+
+// STUDENT ROUTES
 
 router.get("/viewattendance", viewAttendance)
 
@@ -42,5 +48,9 @@ router.get("/courses/:username", getCourses)
 
 router.get("/admin/complaints", getComplaints)
 router.post("/admin/addStudent", addStudent)
+router.post("/admin/createCourse", createCourse)
+router.get("/admin/getCourses", adminGetCourses)
+router.get("/admin/getStudents", adminGetStudents)
+router.get("/admin/getTeachers", adminGetTeachers)
 
 module.exports = router

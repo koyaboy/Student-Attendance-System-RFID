@@ -1,0 +1,78 @@
+.manage-courses-container {
+    margin-top: 20px;
+}
+
+.manage-courses-heading {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.manage-courses-select {
+    margin-bottom: 10px;
+}
+
+.manage-courses-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.manage-courses-table th {
+    background-color: #f2f2f2;
+    padding: 10px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.manage-courses-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.manage-courses-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.manage-courses-table tbody tr:hover {
+    background-color: #e0e0e0;
+}
+
+.manage-courses-button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.edit {
+    background-color: #3f51b5;
+}
+
+.delete {
+    background-color: #f44336;
+}
+
+.manage-courses-button:hover.edit {
+    background-color: #286090;
+}
+
+.manage-courses-button:hover.delete {
+    background-color: #d9534f;
+}
+
+
+.add-course-button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #4caf50;
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 1em;
+    border-radius: 5px;
+}
+
+.add-course-button:hover {
+    background-color: #45a049;
+}

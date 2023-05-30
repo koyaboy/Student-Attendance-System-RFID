@@ -32,10 +32,17 @@ const userSchema = new Schema({
         ref: "Course",
     },
 
+    department: {
+        type: String
+    },
+
     level: {
         type: String,
     },
 
+    title: {
+        type: String
+    },
     role: {
         type: String,
         required: true

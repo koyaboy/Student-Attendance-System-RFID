@@ -119,9 +119,57 @@ const getComplaints = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({ message: 'Failed to retrieve complaints' });
-
     }
+}
 
+const createCourse = async (req, res) => {
+    try {
+        const { department, title, code, description, instructor } = req.body
+
+        const course = await Course.create({
+            department,
+            title,
+            code,
+            description,
+            instructor
+        })
+
+        res.status(200).json({ msg: course })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: "Internal Server Error" })
+    }
+}
+
+const adminGetCourses = async (req, res) => {
+    try {
+        const courses = await Course.find({})
+        res.status(200).json(courses)
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: 'Failed to retrieve courses' });
+    }
+}
+
+const adminGetStudents = async (req, res) => {
+    try {
+        const students = await User.find({ role: "S" })
+        res.status(200).json(students)
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const adminGetTeachers = async (req, res) => {
+    try {
+        const teachers = await User.find({ role: "T" }).populate("courses")
+        res.status(200).json(teachers)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: 'Failed to retrieve Teachers' });
+    }
 }
 
 
@@ -133,7 +181,14 @@ module.exports = {
     addStudent,
     getCourses,
     complaintsForm,
-    getComplaints
+    getComplaints,
+    createCourse,
+    adminGetCourses,
+    adminGetStudents,
+    adminGetTeachers
 }
 
 //6472269d27849edf3ecbe348 (csc 424)
+//6473c306809776f16dc4c6e8 (csc 446)
+
+
