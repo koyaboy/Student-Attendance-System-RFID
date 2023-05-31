@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react"
 import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios"
+import { Link } from "react-router-dom"
 import "../../styles/Admin/ManageTeachers.css"
 
 export default function ManageTeachers() {
@@ -28,7 +29,7 @@ export default function ManageTeachers() {
             <select className="manage-students-select">
                 <option>Computer Science</option>
             </select>
-            <button className="add-teacher-button">Add Teacher</button>
+            <Link to="/admin/addteacher"><button className="add-teacher-button">Add Teacher</button></Link>
             <table className="manage-teachers-table">
                 <thead>
                     <tr>

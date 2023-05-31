@@ -25,7 +25,9 @@ import Complaints from "./pages/Admin/Complaints"
 import ManageCourses from "./pages/Admin/ManageCourses"
 import ManageStudents from "./pages/Admin/ManageStudents"
 import ManageTeachers from "./pages/Admin/ManageTeachers"
-
+import AddCourse from "./pages/Admin/AddCourse"
+import AddStudent from "./pages/Admin/AddStudent"
+import AddTeacher from "./pages/Admin/AddTeacher"
 
 function App() {
   const { user } = useAuthContext();
@@ -76,6 +78,10 @@ function App() {
             <Route path="/admin/managecourses" element={<ManageCourses />} />
             <Route path="/admin/managestudents" element={<ManageStudents />} />
             <Route path="/admin/manageteachers" element={<ManageTeachers />} />
+            <Route path="/admin/addcourse" element={<AddCourse />} />
+            <Route path="/admin/addstudent" element={<AddStudent />} />
+            <Route path="/admin/addteacher" element={<AddTeacher />} />
+
           </Route>
         ) : (
           <Route path="*" element={<Navigate to="/login" replace />} />

@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
+import axios from "axios"
+import { useAuthContext } from "../../hooks/useAuthContext"
+import "../../styles/Admin/AddTeacher.css"
+
 export default function ManageTeachers() {
+
+    const { user } = useAuthContext()
 
     const [title, setTitle] = useState("")
     const [firstname, setFirstName] = useState("")
@@ -10,71 +16,109 @@ export default function ManageTeachers() {
     const [department, setDepartment] = useState("Computer Science")
     const [role, setRole] = useState("T")
 
+    const [success, setSuccess] = useState(false)
+    const [error, setError] = useState(false)
+
     function handleSubmit(e) {
         e.preventDefault()
+
+        axios.post("http://localhost:4000/admin/addTeacher", {
+            title, firstname, lastname, username, password, department, role
+        }, {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        })
+            .then(res => {
+                setTitle("")
+                setFirstName("")
+                setLastName("")
+                setUsername("")
+                setPassword("")
+                console.log(res)
+                setSuccess(true)
+                setError(false)
+            })
+
+            .catch(err => {
+                setError(true)
+                setSuccess(false)
+                console.log(err)
+            })
     }
     return (
         <>
-            <h2>Manage Teachers</h2>
-
+            <div className="add-teacher-message">
+                {success && <div className="add-teacher-success">Teacher Successfully Created</div>}
+                {error && <div className="add-teacher-error">All fields must be completed !!!</div>}
+            </div>
             <form onSubmit={handleSubmit}>
-                <label>Title:</label>
+                <label className="add-teacher-label">Title:</label>
                 <select
                     name="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="add-teacher-input"
                 >
+                    <option value="">-- Select Title --</option>
                     <option value="Prof">Prof</option>
                     <option value="Dr">Dr</option>
                     <option value="Mr">Mr</option>
                 </select>
 
-
-
-                <label>First Name:</label>
+                <label className="add-teacher-label">First Name:</label>
                 <input
                     type="text"
                     name="firstname"
+                    value={firstname}
                     onChange={(e) => setFirstName(e.target.value)}
+                    className="add-teacher-input"
                 />
 
-                <label>Last Name:</label>
+                <label className="add-teacher-label">Last Name:</label>
                 <input
                     type="text"
                     name="lastname"
+                    value={lastname}
                     onChange={(e) => setLastName(e.target.value)}
+                    className="add-teacher-input"
                 />
 
-
-                <label>Username:</label>
+                <label className="add-teacher-label">Username:</label>
                 <input
                     type="text"
                     name="username"
+                    value={username}
                     onChange={(e) => setUsername(e.target.value)}
-
+                    className="add-teacher-input"
                 />
 
-                <label>Password:</label>
+                <label className="add-teacher-label">Password:</label>
                 <input
                     type="password"
                     name="password"
+                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
-
+                    className="add-teacher-input"
                 />
 
-                <label>Department:</label>
+                <label className="add-teacher-label">Department:</label>
                 <input
                     type="text"
                     name="department"
                     value={department}
+                    className="add-teacher-input"
                 />
 
-                <label>Role:</label>
+                <label className="add-teacher-label">Role:</label>
                 <input
                     type="text"
                     name="role"
                     value={role}
+                    className="add-teacher-input"
                 />
 
-                <button>Submit</button>
+                <button className="add-teacher-submit">Submit</button>
 
 
             </form>

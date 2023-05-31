@@ -1,0 +1,51 @@
+.add-teacher {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.add-teacher-group {
+    margin-bottom: 20px;
+}
+
+.add-teacher-label {
+    font-weight: normal;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.add-teacher-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-teacher-message {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.add-teacher-success {
+    color: green;
+}
+
+.add-teacher-error {
+    color: red;
+}
+
+.add-teacher-submit {
+    padding: 10px 20px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.add-teacher-input[readonly] {
+    /* Styles for read-only text fields */
+    border: none;
+    background-color: #f2f2f2;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+}

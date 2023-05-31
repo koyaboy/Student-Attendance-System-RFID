@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios"
 import { useAuthContext } from "../../hooks/useAuthContext"
-
+import "../../styles/Admin/AddCourse.css"
 export default function ManageCourses() {
 
     const [department, setDepartment] = useState("Computer Science")
@@ -48,54 +48,69 @@ export default function ManageCourses() {
     }
 
     return (
-        <div className="">
+        <div className="add-courses-wrapper">
             <form onSubmit={handleSubmit}>
-                <div className="message">
-                    {success && <div>Course Successfully Created</div>}
-                    {error && <div>All fields must be completed !!!</div>}
+                <div className="add-courses-message">
+                    {success && <div className="add-courses-success">Course Successfully Created</div>}
+                    {error && <div className="add-courses-error">All fields must be completed !!!</div>}
                 </div>
 
-                <label>Department</label>
-                <input
-                    type="text"
-                    name="department"
-                    value={department}
-                />
+                <div className="add-courses-group">
+                    <label className="add-courses-label">Department:</label>
+                    <input
+                        type="text"
+                        name="department"
+                        value={department}
+                        className="add-courses-input"
+                        onChange={e => setDepartment(e.target.value)}
+                    />
+                </div>
 
-                <label>Course Title</label>
-                <input
-                    type="text"
-                    name="title"
-                    onChange={(e) => setTitle(e.target.value)}
-                    value={title}
-                />
+                <div className="add-courses-group">
+                    <label className="add-courses-label">Course Title:</label>
+                    <input
+                        type="text"
+                        name="title"
+                        value={title}
+                        className="add-courses-input"
+                        onChange={e => setTitle(e.target.value)}
+                    />
+                </div>
 
-                <label>Course Code</label>
-                <input
-                    type="text"
-                    name="code"
-                    onChange={(e) => setCode(e.target.value)}
-                    value={code}
+                <div className="add-courses-group">
+                    <label className="add-courses-label">Course Code:</label>
+                    <input
+                        type="text"
+                        name="code"
+                        value={code}
+                        className="add-courses-input"
+                        onChange={e => setCode(e.target.value)}
+                    />
+                </div>
 
-                />
+                <div className="add-courses-group">
+                    <label className="add-courses-label">Course Description:</label>
+                    <input
+                        type="text"
+                        name="description"
+                        value={description}
+                        className="add-courses-input"
+                        onChange={e => setDescription(e.target.value)}
+                    />
+                </div>
 
-                <label>Course Description</label>
-                <input
-                    type="text"
-                    name="description"
-                    onChange={(e) => setDescription(e.target.value)}
-                    value={description}
-                />
+                <div className="add-courses-group">
+                    <label className="add-courses-label">Course Instructor:</label>
+                    <input
+                        type="text"
+                        name="instructor"
+                        value={instructor}
+                        className="add-courses-input"
+                        onChange={e => setInstructor(e.target.value)}
+                    />
+                </div>
 
-                <label>Course Instructor</label>
-                <input
-                    type="text"
-                    name="instructor"
-                    onChange={(e) => setInstructor(e.target.value)}
-                    value={instructor}
-                />
-
-                <button>Submit</button>
+                <button className="add-courses-submit">Submit</button>
             </form>
         </div>
     )

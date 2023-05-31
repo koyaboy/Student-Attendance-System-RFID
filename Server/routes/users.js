@@ -16,7 +16,8 @@ const { loginUser,
     createCourse,
     adminGetCourses,
     adminGetStudents,
-    adminGetTeachers } = require("../controllers/userController")
+    adminGetTeachers,
+    addTeacher } = require("../controllers/userController")
 
 
 
@@ -49,6 +50,7 @@ router.get("/courses/:username", getCourses)
 router.get("/admin/complaints", getComplaints)
 router.post("/admin/addStudent", addStudent)
 router.post("/admin/createCourse", createCourse)
+router.post("/admin/addTeacher", addTeacher)
 router.get("/admin/getCourses", adminGetCourses)
 router.get("/admin/getStudents", adminGetStudents)
 router.get("/admin/getTeachers", adminGetTeachers)

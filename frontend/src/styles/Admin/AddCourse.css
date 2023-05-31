@@ -1,0 +1,40 @@
+.add-courses-wrapper {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.add-courses-group {
+    margin-bottom: 20px;
+}
+
+.add-courses-label {
+    font-weight: normal;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.add-courses-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-courses-message {
+    margin-bottom: 10px;
+}
+
+.add-courses-success {
+    color: green;
+}
+
+.add-courses-error {
+    color: red;
+}
+
+.add-courses-submit {
+    padding: 10px 20px;
+
+}

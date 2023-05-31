@@ -108,7 +108,20 @@ const getCourses = async (req, res) => {
 //ADMIN
 
 const addStudent = async (req, res) => {
-    res.json({ msg: "add Student" })
+    try {
+        const { firstname, lastname, username, password, department, role, level } = req.body
+
+        const student = await User.create({
+            firstname, lastname, username, password, department, level, role
+        })
+
+        res.status(200).json(student)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to create student" })
+    }
+
+
 }
 
 const getComplaints = async (req, res) => {
@@ -172,6 +185,21 @@ const adminGetTeachers = async (req, res) => {
     }
 }
 
+const addTeacher = async (req, res) => {
+    try {
+        const { title, firstname, lastname, username, password, department, role } = req.body
+
+        const teacher = await User.create({
+            title, firstname, lastname, username, password, department, role
+        })
+
+        res.status(200).json(teacher)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to create Teacher" })
+    }
+}
+
 
 
 module.exports = {
@@ -185,7 +213,8 @@ module.exports = {
     createCourse,
     adminGetCourses,
     adminGetStudents,
-    adminGetTeachers
+    adminGetTeachers,
+    addTeacher
 }
 
 //6472269d27849edf3ecbe348 (csc 424)
