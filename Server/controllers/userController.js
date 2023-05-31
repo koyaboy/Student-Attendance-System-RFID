@@ -2,6 +2,7 @@ const User = require("../models/userModel")
 const Attendance = require("../models/Attendance")
 const Course = require("../models/Course")
 const Complaints = require("../models/Complaints")
+const Activity = require("../models/Activity")
 const jwt = require("jsonwebtoken")
 
 const createToken = (_id) => {
@@ -109,13 +110,21 @@ const getCourses = async (req, res) => {
 
 const addStudent = async (req, res) => {
     try {
-        const { firstname, lastname, username, password, department, role, level } = req.body
+        const { firstname, lastname, username, password, department, role, level, actionBy } = req.body
 
         const student = await User.create({
             firstname, lastname, username, password, department, level, role
         })
 
+        //Update Activity Table
+        const activity = await Activity.create({
+            timestamp: Date.now(),
+            action: `Student ${username} created Successfully`,
+            actionBy: actionBy
+        })
+
         res.status(200).json(student)
+
     } catch (error) {
         console.log(error)
         res.status(500).json({ message: "Failed to create student" })
@@ -137,7 +146,7 @@ const getComplaints = async (req, res) => {
 
 const createCourse = async (req, res) => {
     try {
-        const { department, title, code, description, instructor } = req.body
+        const { department, title, code, description, instructor, actionBy } = req.body
 
         const course = await Course.create({
             department,
@@ -147,7 +156,17 @@ const createCourse = async (req, res) => {
             instructor
         })
 
+        //Update Activity Table
+        const activity = await Activity.create({
+            timestamp: Date.now(),
+            action: `Course ${code} created Successfully`,
+            actionBy: actionBy
+        })
+
+
         res.status(200).json({ msg: course })
+
+
     } catch (error) {
         console.log(error);
         res.status(500).json({ msg: "Internal Server Error" })
@@ -187,16 +206,35 @@ const adminGetTeachers = async (req, res) => {
 
 const addTeacher = async (req, res) => {
     try {
-        const { title, firstname, lastname, username, password, department, role } = req.body
+        const { title, firstname, lastname, username, password, department, role, actionBy } = req.body
 
         const teacher = await User.create({
             title, firstname, lastname, username, password, department, role
         })
 
+        const activity = await Activity.create({
+            timestamp: Date.now(),
+            action: `Teacher ${title}. ${firstname} ${lastname} created Successfully`,
+            actionBy: actionBy
+        })
+
         res.status(200).json(teacher)
+
+
     } catch (error) {
         console.log(error)
         res.status(500).json({ message: "Failed to create Teacher" })
+    }
+}
+
+const getActivity = async (req, res) => {
+    try {
+        const activities = await Activity.find()
+        res.status(200).json(activities)
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to retrieve Recent Activities" })
     }
 }
 
@@ -214,7 +252,8 @@ module.exports = {
     adminGetCourses,
     adminGetStudents,
     adminGetTeachers,
-    addTeacher
+    addTeacher,
+    getActivity
 }
 
 //6472269d27849edf3ecbe348 (csc 424)

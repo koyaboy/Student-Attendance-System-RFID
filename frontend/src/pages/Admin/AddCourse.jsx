@@ -19,12 +19,20 @@ export default function ManageCourses() {
     function handleSubmit(e) {
         e.preventDefault()
 
+        const storedUser = localStorage.getItem("user")
+        let actionBy = "";
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            actionBy = user.username;
+        }
+
         axios.post("http://localhost:4000/admin/createCourse", {
             department,
             title,
             code,
             description,
-            instructor
+            instructor,
+            actionBy
         }, {
             headers: {
                 Authorization: `Bearer ${user.token}`

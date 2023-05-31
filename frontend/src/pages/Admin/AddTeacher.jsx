@@ -22,8 +22,15 @@ export default function ManageTeachers() {
     function handleSubmit(e) {
         e.preventDefault()
 
+        const storedUser = localStorage.getItem("user")
+        let actionBy = "";
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            actionBy = user.username;
+        }
+
         axios.post("http://localhost:4000/admin/addTeacher", {
-            title, firstname, lastname, username, password, department, role
+            title, firstname, lastname, username, password, department, role, actionBy
         }, {
             headers: {
                 Authorization: `Bearer ${user.token}`

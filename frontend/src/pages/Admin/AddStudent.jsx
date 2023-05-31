@@ -19,8 +19,17 @@ export default function ManageStudents() {
 
     const { user } = useAuthContext()
 
+
+
     function handleSubmit(e) {
         e.preventDefault()
+
+        const storedUser = localStorage.getItem("user")
+        let actionBy = "";
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            actionBy = user.username;
+        }
 
         axios.post("http://localhost:4000/admin/addStudent", {
             firstname,
@@ -29,7 +38,8 @@ export default function ManageStudents() {
             password,
             level,
             department,
-            role
+            role,
+            actionBy
         }, {
             headers: {
                 Authorization: `Bearer ${user.token}`

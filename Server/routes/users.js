@@ -17,7 +17,8 @@ const { loginUser,
     adminGetCourses,
     adminGetStudents,
     adminGetTeachers,
-    addTeacher } = require("../controllers/userController")
+    addTeacher,
+    getActivity } = require("../controllers/userController")
 
 
 
@@ -32,6 +33,7 @@ router.use(authMiddleware)
 // STUDENT ROUTES
 
 router.get("/viewattendance", viewAttendance)
+router.get("/courses/:username", getCourses)
 
 router.post("viewattendance", (req, res) => {
     res.json({ msg: "Attendance uploaded" })
@@ -39,7 +41,7 @@ router.post("viewattendance", (req, res) => {
 
 router.post("/complaintsform/:username", complaintsForm)
 
-router.get("/courses/:username", getCourses)
+
 
 
 
@@ -48,11 +50,13 @@ router.get("/courses/:username", getCourses)
 //ADMIN ROUTES
 
 router.get("/admin/complaints", getComplaints)
-router.post("/admin/addStudent", addStudent)
-router.post("/admin/createCourse", createCourse)
-router.post("/admin/addTeacher", addTeacher)
 router.get("/admin/getCourses", adminGetCourses)
 router.get("/admin/getStudents", adminGetStudents)
 router.get("/admin/getTeachers", adminGetTeachers)
+router.get("/admin/activity", getActivity)
+router.post("/admin/addStudent", addStudent)
+router.post("/admin/createCourse", createCourse)
+router.post("/admin/addTeacher", addTeacher)
+
 
 module.exports = router
