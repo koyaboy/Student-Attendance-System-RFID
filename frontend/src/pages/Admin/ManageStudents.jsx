@@ -22,6 +22,31 @@ export default function ManageStudents() {
             .catch(err => console.log(err))
 
     }, [])
+
+    const handleDelete = (studentId, username) => {
+
+        const storedUser = localStorage.getItem("user")
+        let actionBy = "";
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            actionBy = user.username;
+        }
+
+        axios.delete(`http://localhost:4000/admin/deleteStudent/${studentId}/${username}/${actionBy}`, {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        })
+            .then((res) => {
+                if (res.status == 200) {
+                    //Remove deleted student from the state
+                    setStudents((prevStudents) =>
+                        prevStudents.filter((student) => student._id !== studentId)
+                    );
+                }
+            })
+            .catch(err => console.log(err))
+    }
     return (
         <div className="manage-students-container">
             <h2 className="manage-students-heading">Manage Students</h2>
@@ -49,8 +74,11 @@ export default function ManageStudents() {
                                 <td>{student.lastname}</td>
                                 <td>{student.level}</td>
                                 <td>
-                                    <button className="manage-students-button edit">Edit</button>
-                                    <button className="manage-students-button delete">Delete</button>
+                                    <Link to={`/admin/updateStudent/${student._id}`}><button className="manage-students-button edit">Edit</button></Link>
+                                    <button
+                                        className="manage-students-button delete"
+                                        onClick={() => handleDelete(student._id, student.username)}>Delete
+                                    </button>
                                 </td>
                             </tr>
                         ))}

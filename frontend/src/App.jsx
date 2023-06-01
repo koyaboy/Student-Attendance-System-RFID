@@ -28,6 +28,7 @@ import ManageTeachers from "./pages/Admin/ManageTeachers"
 import AddCourse from "./pages/Admin/AddCourse"
 import AddStudent from "./pages/Admin/AddStudent"
 import AddTeacher from "./pages/Admin/AddTeacher"
+import UpdateStudent from './pages/Admin/UpdateStudent';
 
 function App() {
   const { user } = useAuthContext();
@@ -81,6 +82,7 @@ function App() {
             <Route path="/admin/addcourse" element={<AddCourse />} />
             <Route path="/admin/addstudent" element={<AddStudent />} />
             <Route path="/admin/addteacher" element={<AddTeacher />} />
+            <Route path="/admin/updateStudent/:studentId" element={<UpdateStudent />} />
 
           </Route>
         ) : (

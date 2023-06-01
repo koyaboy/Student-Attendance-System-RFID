@@ -238,6 +238,71 @@ const getActivity = async (req, res) => {
     }
 }
 
+const updateStudent = async (req, res) => {
+    try {
+        const { id, firstname, lastname, username, password, level, department, role, actionBy } = req.body
+        const student = await User.findById(id)
+
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' })
+        }
+
+        student.firstname = firstname;
+        student.lastname = lastname;
+        student.username = username;
+        student.password = password;
+        student.level = level;
+        student.department = department;
+        student.role = role;
+
+        // Save the updated student
+        await student.save();
+
+        //Update Activity table
+
+
+        const activity = await Activity.create({
+            timestamp: Date.now(),
+            action: `Student ${username} Information Updated`,
+            actionBy: actionBy
+        })
+
+        res.status(200).json({ message: "Student Updated Successfully" })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to Update Student" })
+    }
+}
+
+const deleteStudent = async (req, res) => {
+    const { studentId, username, actionBy } = req.params
+
+    try {
+        const result = await User.deleteOne({ _id: studentId })
+
+
+        if (result.deletedCount == 1) {
+            res.status(200).json({ message: "Student successfully deleted" })
+        } else {
+            res.status(404).json({ message: "Student Not Found" })
+        }
+
+        //Update Activity table
+        const activity = await Activity.create({
+            timestamp: Date.now(),
+            action: `Student ${username} Deleted`,
+            actionBy: actionBy
+        })
+
+
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to delete student" })
+    }
+}
+
 
 
 module.exports = {
@@ -253,7 +318,9 @@ module.exports = {
     adminGetStudents,
     adminGetTeachers,
     addTeacher,
-    getActivity
+    getActivity,
+    updateStudent,
+    deleteStudent
 }
 
 //6472269d27849edf3ecbe348 (csc 424)
