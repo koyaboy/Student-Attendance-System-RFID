@@ -21,3 +21,12 @@
 .table-cell:first-child {
     width: 30%;
 }
+
+.action {
+    width: 50px;
+}
+
+.complaint-delete-icon {
+    cursor: pointer;
+    width: 30px;
+}

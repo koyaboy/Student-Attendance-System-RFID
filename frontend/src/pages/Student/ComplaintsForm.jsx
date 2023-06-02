@@ -9,6 +9,7 @@ export default function ComplaintsForm() {
     const [selectedCourse, setSelectedCourse] = useState("")
     const [dateMissed, setDateMissed] = useState("")
     const [reason, setReason] = useState("")
+    const [isCompleted, setIsCompleted] = useState(false)
 
     const [successful, setSuccessful] = useState(false)
     const [error, setError] = useState("")
@@ -33,7 +34,8 @@ export default function ComplaintsForm() {
             username,
             selectedCourse,
             dateMissed,
-            reason
+            reason,
+            isCompleted
         }, {
             headers: {
                 Authorization: `Bearer ${user.token}`

@@ -59,13 +59,14 @@ const viewAttendance = async (req, res) => {
 const complaintsForm = async (req, res) => {
 
     const { username } = req.params
-    const { selectedCourse, dateMissed, reason } = req.body
+    const { selectedCourse, dateMissed, reason, isCompleted } = req.body
 
     const newComplaint = {
         username,
         selectedCourse: selectedCourse,
         dateMissed: dateMissed,
-        reason: reason
+        reason: reason,
+        isCompleted
     }
 
     try {
@@ -347,6 +348,35 @@ const updateTeacher = async (req, res) => {
     }
 }
 
+const updateComplaint = async (req, res) => {
+    const { complaintId, username, actionBy } = req.params
+
+    try {
+        const complaint = await Complaints.findById(complaintId)
+
+        if (!complaint) {
+            return res.status(404).json({ message: "Complaint not found" });
+        }
+
+        //Update the isCompleted field
+        complaint.isCompleted = true;
+
+        await complaint.save()
+
+        //Update Activity table
+        const activity = await Activity.create({
+            timestamp: Date.now(),
+            action: `Complaint ${complaintId} by ${username} Completed`,
+            actionBy: actionBy
+        })
+
+        res.status(200).json({ message: "Complaint completed" })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Complaint could not be completed" })
+    }
+}
+
 const deleteStudent = async (req, res) => {
     const { studentId, username, actionBy } = req.params
 
@@ -427,6 +457,30 @@ const deleteTeacher = async (req, res) => {
     }
 }
 
+const deleteComplaint = async (req, res) => {
+    const { complaintId, actionBy } = req.params
+    try {
+        const complaint = await Complaints.deleteOne({ _id: complaintId })
+
+        if (complaint.deletedCount == 1) {
+            res.status(200).json({ message: "Complaint Successfully Delete" })
+        } else {
+            res.status(400).json({ message: "Complaint Not Found" })
+        }
+
+        //Update Activity table
+        const activity = await Activity.create({
+            timestamp: Date.now(),
+            action: `Complaint Id: ${complaintId} Deleted`,
+            actionBy: actionBy
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to Delete Complaint" })
+    }
+}
+
 
 
 module.exports = {
@@ -446,9 +500,11 @@ module.exports = {
     updateStudent,
     updateCourse,
     updateTeacher,
+    updateComplaint,
     deleteStudent,
     deleteCourse,
-    deleteTeacher
+    deleteTeacher,
+    deleteComplaint
 }
 
 //6472269d27849edf3ecbe348 (csc 424)

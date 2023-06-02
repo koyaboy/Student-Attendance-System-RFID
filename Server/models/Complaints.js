@@ -18,7 +18,9 @@ const complaintsSchema = new Schema({
 
     reason: {
         type: String
-    }
+    },
+
+    isCompleted: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model("Complaints", complaintsSchema)

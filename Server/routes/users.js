@@ -22,9 +22,11 @@ const { loginUser,
     updateStudent,
     updateCourse,
     updateTeacher,
+    updateComplaint,
     deleteStudent,
     deleteCourse,
-    deleteTeacher } = require("../controllers/userController")
+    deleteTeacher,
+    deleteComplaint } = require("../controllers/userController")
 
 
 
@@ -63,9 +65,11 @@ router.post("/admin/addTeacher", addTeacher)
 router.put("/admin/updateStudent/:studentId", updateStudent)
 router.put("/admin/updateCourse/:courseId", updateCourse)
 router.put("/admin/updateTeacher/:teacherId", updateTeacher)
+router.put("/admin/updateComplaint/:complaintId/:username/:actionBy", updateComplaint)
 
 router.delete("/admin/deleteStudent/:studentId/:username/:actionBy", deleteStudent)
 router.delete("/admin/deleteCourse/:courseId/:courseCode/:actionBy", deleteCourse)
 router.delete("/admin/deleteTeacher/:teacherId/:username/:actionBy", deleteTeacher)
+router.delete("/admin/deleteComplaint/:complaintId/:actionBy", deleteComplaint)
 
 module.exports = router
