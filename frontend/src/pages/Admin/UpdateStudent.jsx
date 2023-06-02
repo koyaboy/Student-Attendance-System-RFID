@@ -35,7 +35,7 @@ export default function ManageStudents() {
             actionBy = user.username;
         }
 
-        axios.put("http://localhost:4000/admin/updateStudent/:studentId", {
+        axios.put(`http://localhost:4000/admin/updateStudent/${studentId}`, {
             id: studentId,
             firstname,
             lastname,
@@ -52,13 +52,6 @@ export default function ManageStudents() {
         })
             .then(res => {
                 navigate("/admin/managestudents")
-                // setFirstName("")
-                // setLastName("")
-                // setUserName("")
-                // setPassword("")
-                // setLevel("")
-                // setSuccess(true)
-                // setError(false)
                 console.log(res)
             })
             .catch(err => {
@@ -69,7 +62,7 @@ export default function ManageStudents() {
     }
     return (
         <div className="add-student">
-            <h2>Update Student</h2>
+            <h2 className="add-student-title">Update Student</h2>
             <div className="add-student-message">
                 {success && <div className="add-student-success">Student Updated Successfully</div>}
                 {error && <div className="add-student-error">All fields must be completed !!!</div>}

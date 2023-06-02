@@ -1,10 +1,15 @@
-import React from "react";
+import React from "react"
 import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { useAuthContext } from "../../hooks/useAuthContext"
 import "../../styles/Admin/AddCourse.css"
 
-export default function ManageCourses() {
+export default function UpdateCourse() {
+
+    const navigate = useNavigate()
+
+    const { courseId } = useParams()
 
     const [department, setDepartment] = useState("Computer Science")
     const [title, setTitle] = useState("")
@@ -17,7 +22,10 @@ export default function ManageCourses() {
 
     const { user } = useAuthContext()
 
+
+
     function handleSubmit(e) {
+
         e.preventDefault()
 
         const storedUser = localStorage.getItem("user")
@@ -27,7 +35,7 @@ export default function ManageCourses() {
             actionBy = user.username;
         }
 
-        axios.post("http://localhost:4000/admin/createCourse", {
+        axios.put(`http://localhost:4000/admin/updateCourse/${courseId}`, {
             department,
             title,
             code,
@@ -40,30 +48,27 @@ export default function ManageCourses() {
             }
         })
             .then(res => {
-                setTitle("")
-                setCode("")
-                setDescription("")
-                setInstructor("")
-                setSuccess(true)
-                setError(false)
+                navigate("/admin/managecourses")
+                console.log(res)
             })
 
             .catch(err => {
-                console.log(err)
                 setSuccess(false)
                 setError(true)
+                console.log(err)
             })
 
     }
 
     return (
         <div className="add-courses-wrapper">
-            <form onSubmit={handleSubmit}>
-                <div className="add-courses-message">
-                    {success && <div className="add-courses-success">Course Successfully Created</div>}
-                    {error && <div className="add-courses-error">All fields must be completed !!!</div>}
-                </div>
+            <h2 className="add-courses-title">Update Course</h2>
+            <div className="add-courses-message">
+                {success && <div className="add-courses-success">Course Successfully Created</div>}
+                {error && <div className="add-courses-error">All fields must be completed !!!</div>}
+            </div>
 
+            <form onSubmit={handleSubmit}>
                 <div className="add-courses-group">
                     <label className="add-courses-label">Department:</label>
                     <input

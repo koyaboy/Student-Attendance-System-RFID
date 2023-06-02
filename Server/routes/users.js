@@ -20,7 +20,11 @@ const { loginUser,
     addTeacher,
     getActivity,
     updateStudent,
-    deleteStudent } = require("../controllers/userController")
+    updateCourse,
+    updateTeacher,
+    deleteStudent,
+    deleteCourse,
+    deleteTeacher } = require("../controllers/userController")
 
 
 
@@ -44,11 +48,6 @@ router.post("viewattendance", (req, res) => {
 router.post("/complaintsform/:username", complaintsForm)
 
 
-
-
-
-
-
 //ADMIN ROUTES
 
 router.get("/admin/complaints", getComplaints)
@@ -62,7 +61,11 @@ router.post("/admin/createCourse", createCourse)
 router.post("/admin/addTeacher", addTeacher)
 
 router.put("/admin/updateStudent/:studentId", updateStudent)
+router.put("/admin/updateCourse/:courseId", updateCourse)
+router.put("/admin/updateTeacher/:teacherId", updateTeacher)
 
 router.delete("/admin/deleteStudent/:studentId/:username/:actionBy", deleteStudent)
+router.delete("/admin/deleteCourse/:courseId/:courseCode/:actionBy", deleteCourse)
+router.delete("/admin/deleteTeacher/:teacherId/:username/:actionBy", deleteTeacher)
 
 module.exports = router

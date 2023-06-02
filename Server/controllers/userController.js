@@ -259,8 +259,6 @@ const updateStudent = async (req, res) => {
         await student.save();
 
         //Update Activity table
-
-
         const activity = await Activity.create({
             timestamp: Date.now(),
             action: `Student ${username} Information Updated`,
@@ -272,6 +270,80 @@ const updateStudent = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({ message: "Failed to Update Student" })
+    }
+}
+
+const updateCourse = async (req, res) => {
+    const { department, code, title, description, instructor, actionBy } = req.body
+    const { courseId } = req.params
+
+    try {
+        const course = await Course.findById(courseId)
+
+        if (!course) {
+            res.status(404).json({ message: "Course Not Found" })
+        }
+
+        course.title = title;
+        course.department = department;
+        course.code = code;
+        course.description = description;
+        course.instructor = instructor;
+
+        //Save the Updated course
+        await course.save();
+
+        //Update Activity table
+        const activity = await Activity.create({
+            timestamp: Date.now(),
+            action: `Course ${code} Information Updated`,
+            actionBy: actionBy
+        })
+
+        res.status(200).json({ message: "Course Updated Successfully" })
+
+
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to Update Course Information" })
+    }
+}
+
+const updateTeacher = async (req, res) => {
+    const { title, firstname, lastname, username, password, department, role, actionBy } = req.body
+    const { teacherId } = req.params
+
+    try {
+        const teacher = await User.findById(teacherId)
+
+        if (!teacher) {
+            res.status(404).json({ message: "Teacher Not Found" })
+        }
+
+        teacher.title = title
+        teacher.firstname = firstname
+        teacher.lastname = lastname
+        teacher.username = username
+        teacher.password = password
+        teacher.department = department
+        teacher.role = role
+
+        //Save Updated teacher
+        teacher.save()
+
+        //Update Activity table
+        const activity = await Activity.create({
+            timestamp: Date.now(),
+            action: `Teacher ${title}. ${firstname} ${lastname} Information Updated`,
+            actionBy: actionBy
+        })
+
+        res.status(200).json({ message: "Teacher Information Updated Successfully" })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to Update Teacher Information" })
     }
 }
 
@@ -303,6 +375,58 @@ const deleteStudent = async (req, res) => {
     }
 }
 
+const deleteCourse = async (req, res) => {
+    const { courseId, courseCode, actionBy } = req.params;
+
+    try {
+        const course = await Course.deleteOne({ _id: courseId })
+
+        if (course.deletedCount == 1) {
+            res.status(200).json({ message: "Course Successfully deleted" })
+        } else {
+            res.status(400).json({ message: "Course Not Found" })
+        }
+
+        //Update Activity table
+        const activity = await Activity.create({
+            timestamp: Date.now(),
+            action: `Course ${courseCode} Deleted`,
+            actionBy: actionBy
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to delete course" })
+    }
+
+
+}
+
+const deleteTeacher = async (req, res) => {
+    const { teacherId, username, actionBy } = req.params
+
+    try {
+        const teacher = await User.deleteOne({ _id: teacherId })
+
+        if (teacher.deletedCount == 1) {
+            res.status(200).json({ message: "Teacher Successfully deleted" })
+        } else {
+            res.status(400).json({ message: "Teacher Not Found" })
+        }
+
+        //Update Activity table
+        const activity = await Activity.create({
+            timestamp: Date.now(),
+            action: `Teacher ${username} Deleted`,
+            actionBy: actionBy
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to Delete Teacher" })
+    }
+}
+
 
 
 module.exports = {
@@ -320,7 +444,11 @@ module.exports = {
     addTeacher,
     getActivity,
     updateStudent,
-    deleteStudent
+    updateCourse,
+    updateTeacher,
+    deleteStudent,
+    deleteCourse,
+    deleteTeacher
 }
 
 //6472269d27849edf3ecbe348 (csc 424)

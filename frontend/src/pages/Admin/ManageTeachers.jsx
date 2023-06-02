@@ -23,6 +23,30 @@ export default function ManageTeachers() {
             .catch(err => console.log(err))
     }, [])
 
+    const handleDelete = (teacherId, username) => {
+        const storedUser = localStorage.getItem("user")
+        let actionBy = "";
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            actionBy = user.username;
+        }
+
+        axios.delete(`http://localhost:4000/admin/deleteTeacher/${teacherId}/${username}/${actionBy}`, {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        })
+
+            .then(res => {
+                if (res.status == 200) {
+                    setTeachers((prevTeachers) =>
+                        prevTeachers.filter((teacher) => teacher._id !== teacherId)
+                    )
+                }
+            })
+
+            .catch(err => console.log(err))
+    }
     return (
         <div className="manage-teachers-container">
             <h2 className="manage-teachers-heading">Manage Teachers</h2>
@@ -55,8 +79,11 @@ export default function ManageTeachers() {
                                     ))}
                                 </td>
                                 <td>
-                                    <button className="manage-teachers-button edit">Edit</button>
-                                    <button className="manage-teachers-button delete">Delete</button>
+                                    <Link to={`/admin/updateTeacher/${teacher._id}`}><button className="manage-teachers-button edit">Edit</button></Link>
+                                    <button
+                                        className="manage-teachers-button delete"
+                                        onClick={() => handleDelete(teacher._id, teacher.username)}
+                                    >Delete</button>
                                 </td>
                             </tr>
                         ))}
