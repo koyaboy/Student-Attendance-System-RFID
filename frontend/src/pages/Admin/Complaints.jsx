@@ -12,8 +12,6 @@ export default function Complaints() {
     const { user } = useAuthContext()
     const [complaints, setComplaints] = useState([])
 
-    const [isCompleted, setIsCompleted] = useState(false)
-
     useEffect(() => {
         axios.get("http://localhost:4000/admin/complaints", {
             headers: {
@@ -51,6 +49,19 @@ export default function Complaints() {
                                 : complaint
                         )
                     );
+
+                    axios.get("http://localhost:4000/admin/complaints", {
+                        headers: {
+                            Authorization: `Bearer ${user.token}`
+                        }
+                    })
+
+                        .then(res => {
+                            setComplaints(res.data)
+                            console.log(res)
+                        })
+
+                        .catch(error => console.log(error))
                 }
             })
 
@@ -71,14 +82,13 @@ export default function Complaints() {
             }
         })
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     setComplaints((prevComplaint) => prevComplaint.filter((complaint) => complaint._id !== complaintId)
                     )
                 }
             })
             .catch(err => {
                 console.log(err)
-                setIsCompleted(false)
             })
     }
 
@@ -112,8 +122,8 @@ export default function Complaints() {
                                     <input
                                         type="checkbox"
                                         name="isCompleted"
-                                        value={complaint.isCompleted}
-                                        onClick={() => handleComplete(complaint._id, complaint.username)}
+                                        checked={complaint.isCompleted}
+                                        onChange={() => handleComplete(complaint._id, complaint.username)}
                                     />
 
                                     <img className="complaint-delete-icon"

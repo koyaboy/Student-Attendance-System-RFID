@@ -230,12 +230,28 @@ const addTeacher = async (req, res) => {
 
 const getActivity = async (req, res) => {
     try {
-        const activities = await Activity.find()
-        res.status(200).json(activities)
+        const limit = 5; // Specify the maximum number of activities to retrieve
 
+        const activities = await Activity.find()
+            .sort({ timestamp: -1 }) // Sort by the most recent timestamp in descending order
+            .limit(limit); // Limit the number of activities
+
+        res.status(200).json(activities);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Failed to retrieve Recent Activities" });
+    }
+};
+
+
+const getComplaintsData = async (req, res) => {
+    try {
+        const completedCount = await Complaints.countDocuments({ isCompleted: true });
+        const pendingCount = await Complaints.countDocuments({ isCompleted: false });
+        res.json({ completedCount, pendingCount })
     } catch (error) {
         console.log(error)
-        res.status(500).json({ message: "Failed to retrieve Recent Activities" })
+        res.status(500).json({ error: "Internal Server error" })
     }
 }
 
@@ -359,7 +375,7 @@ const updateComplaint = async (req, res) => {
         }
 
         //Update the isCompleted field
-        complaint.isCompleted = true;
+        complaint.isCompleted = !complaint.isCompleted;
 
         await complaint.save()
 
@@ -497,6 +513,7 @@ module.exports = {
     adminGetTeachers,
     addTeacher,
     getActivity,
+    getComplaintsData,
     updateStudent,
     updateCourse,
     updateTeacher,

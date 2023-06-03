@@ -19,6 +19,7 @@ const { loginUser,
     adminGetTeachers,
     addTeacher,
     getActivity,
+    getComplaintsData,
     updateStudent,
     updateCourse,
     updateTeacher,
@@ -57,6 +58,7 @@ router.get("/admin/getCourses", adminGetCourses)
 router.get("/admin/getStudents", adminGetStudents)
 router.get("/admin/getTeachers", adminGetTeachers)
 router.get("/admin/activity", getActivity)
+router.get("/admin/complaintsData", getComplaintsData)
 
 router.post("/admin/addStudent", addStudent)
 router.post("/admin/createCourse", createCourse)
