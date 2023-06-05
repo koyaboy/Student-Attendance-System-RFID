@@ -1,13 +1,13 @@
-const User = require("../models/userModel")
-const express = require("express")
-const authMiddleware = require("../middleware/authMiddleware")
+const User = require("../models/userModel");
+const express = require("express");
+const authMiddleware = require("../middleware/authMiddleware");
+const restrictToRole = require("../middleware/restrictToRole");
 
-const router = express.Router()
+const router = express.Router();
 
-
-
-//controller functions
-const { loginUser,
+// Controller functions
+const {
+    loginUser,
     viewAttendance,
     complaintsForm,
     addStudent,
@@ -27,51 +27,47 @@ const { loginUser,
     deleteStudent,
     deleteCourse,
     deleteTeacher,
-    deleteComplaint } = require("../controllers/userController")
+    deleteComplaint,
+} = require("../controllers/userController");
 
+router.post("/login", loginUser);
 
-
-router.post("/login", loginUser)
-
-
-//Middleware
-
-router.use(authMiddleware)
-
+// Middleware
+router.use(authMiddleware);
 
 // STUDENT ROUTES
+const studentRouter = express.Router();
+// studentRouter.use(restrictToRole("S"));
+studentRouter.get("/viewattendance", viewAttendance);
+studentRouter.get("/courses/:username", getCourses);
+studentRouter.post("/viewattendance", (req, res) => {
+    res.json({ msg: "Attendance uploaded" });
+});
+studentRouter.post("/complaintsform/:username", complaintsForm);
 
-router.get("/viewattendance", viewAttendance)
-router.get("/courses/:username", getCourses)
+// ADMIN ROUTES
+const adminRouter = express.Router();
+// adminRouter.use(restrictToRole("A"));
+adminRouter.get("/complaints", getComplaints);
+adminRouter.get("/getCourses", adminGetCourses);
+adminRouter.get("/getStudents", adminGetStudents);
+adminRouter.get("/getTeachers", adminGetTeachers);
+adminRouter.get("/activity", getActivity);
+adminRouter.get("/complaintsData", getComplaintsData);
+adminRouter.post("/addStudent", addStudent);
+adminRouter.post("/createCourse", createCourse);
+adminRouter.post("/addTeacher", addTeacher);
+adminRouter.put("/updateStudent/:studentId", updateStudent);
+adminRouter.put("/updateCourse/:courseId", updateCourse);
+adminRouter.put("/updateTeacher/:teacherId", updateTeacher);
+adminRouter.put("/updateComplaint/:complaintId/:username/:actionBy", updateComplaint);
+adminRouter.delete("/deleteStudent/:studentId/:username/:actionBy", deleteStudent);
+adminRouter.delete("/deleteCourse/:courseId/:courseCode/:actionBy", deleteCourse);
+adminRouter.delete("/deleteTeacher/:teacherId/:username/:actionBy", deleteTeacher);
+adminRouter.delete("/deleteComplaint/:complaintId/:actionBy", deleteComplaint);
 
-router.post("viewattendance", (req, res) => {
-    res.json({ msg: "Attendance uploaded" })
-})
+// Register the student and admin routers
+router.use("/", studentRouter);
+router.use("/admin", adminRouter);
 
-router.post("/complaintsform/:username", complaintsForm)
-
-
-//ADMIN ROUTES
-
-router.get("/admin/complaints", getComplaints)
-router.get("/admin/getCourses", adminGetCourses)
-router.get("/admin/getStudents", adminGetStudents)
-router.get("/admin/getTeachers", adminGetTeachers)
-router.get("/admin/activity", getActivity)
-router.get("/admin/complaintsData", getComplaintsData)
-
-router.post("/admin/addStudent", addStudent)
-router.post("/admin/createCourse", createCourse)
-router.post("/admin/addTeacher", addTeacher)
-
-router.put("/admin/updateStudent/:studentId", updateStudent)
-router.put("/admin/updateCourse/:courseId", updateCourse)
-router.put("/admin/updateTeacher/:teacherId", updateTeacher)
-router.put("/admin/updateComplaint/:complaintId/:username/:actionBy", updateComplaint)
-
-router.delete("/admin/deleteStudent/:studentId/:username/:actionBy", deleteStudent)
-router.delete("/admin/deleteCourse/:courseId/:courseCode/:actionBy", deleteCourse)
-router.delete("/admin/deleteTeacher/:teacherId/:username/:actionBy", deleteTeacher)
-router.delete("/admin/deleteComplaint/:complaintId/:actionBy", deleteComplaint)
-
-module.exports = router
+module.exports = router;

@@ -49,22 +49,6 @@ const userSchema = new Schema({
     }
 })
 
-// static addStudent method
-
-userSchema.statics.addStudent = async (username, password, course, level, role) => {
-    const exists = await this.findOne({ username })
-
-    if (exists) {
-        throw Error("Username already in use")
-    }
-
-    const salt = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(password, salt)
-
-    const user = await this.create({ username, password: hash, course, level, role })
-
-    return user
-}
 
 // static login method
 
@@ -80,11 +64,19 @@ userSchema.statics.login = async function (username, password) {
         throw Error("Incorrect details")
     }
 
-    // const match = await bcrypt.compare(password, user.password)
+    const match = await bcrypt.compare(password, user.password)
 
-    // if (!match) {
-    //     throw Error("Incorrect password")
-    // }
+
+    //If it's a student or teacher trying to login
+
+    if ((user.role === "S" || user.role === "T") && !match) {
+        throw Error("Incorrect password")
+    }
+
+    //If it's an admin
+    if ((user.role === "A") && password !== user.password) {
+        throw Error("Incorrect password")
+    }
 
     return user
 }

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/Navbar.css"
+import { useLogout } from "../../hooks/useLogout"
 
 export default function TeacherNavbar() {
+
+    const { logout } = useLogout()
 
     const [isActive, setIsActive] = useState(false);
     const [isActive2, setIsActive2] = useState(false);
@@ -56,6 +59,10 @@ export default function TeacherNavbar() {
         setIsActive6(false)
     }
 
+    function handleLogout() {
+        logout()
+    }
+
     return (
         <div className="navbar">
             <ul className="nav--items">
@@ -97,7 +104,12 @@ export default function TeacherNavbar() {
                     <li>MANAGE TEACHERS</li>
                 </Link>
 
-                <li className="logout">LOGOUT</li>
+                <Link
+                    to="/login"
+                    onClick={handleLogout}
+                >
+                    <li className="logout">LOGOUT</li>
+                </Link>
 
                 <li className="omegaSemester">OMEGA SEMESTER</li>
             </ul>

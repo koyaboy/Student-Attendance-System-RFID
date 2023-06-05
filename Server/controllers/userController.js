@@ -21,13 +21,16 @@ const loginUser = async (req, res) => {
         const user = await User.login(username, password)
 
         const userdetails = await User.findOne({ username })
+
         const firstname = userdetails.firstname;
-        const lastname = userdetails.lastname
+        const lastname = userdetails.lastname;
+        const role = userdetails.role;
 
         //create a token
         const token = createToken(user._id)
 
-        res.status(200).json({ username, token, firstname, lastname })
+        res.status(200).json({ username, token, firstname, lastname, role })
+
     } catch (error) {
         res.status(400).json({ error: error.message })
     }

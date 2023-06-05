@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/Teacher/TeacherNavbar.css"
+import { useLogout } from "../../hooks/useLogout"
 
 export default function TeacherNavbar() {
+
+    const { logout } = useLogout()
 
     const [isActive, setIsActive] = useState(false);
     const [isActive2, setIsActive2] = useState(false);
@@ -24,6 +27,10 @@ export default function TeacherNavbar() {
         setIsActive(false)
         setIsActive2(false)
         setIsActive3(prevIsActive3 => !prevIsActive3)
+    }
+
+    function handleLogout() {
+        logout()
     }
 
     return (
@@ -52,7 +59,12 @@ export default function TeacherNavbar() {
                     <li>UPLOAD ATTENDANCE</li>
                 </Link>
 
-                <li className="logout">LOGOUT</li>
+                <Link
+                    to="/login"
+                    onClick={handleLogout}
+                >
+                    <li className="logout">LOGOUT</li>
+                </Link>
 
                 <li className="omegaSemester">OMEGA SEMESTER</li>
             </ul>

@@ -33,6 +33,19 @@ import UpdateCourse from "./pages/Admin/UpdateCourse";
 import UpdateTeacher from "./pages/Admin/UpdateTeacher"
 
 function App() {
+
+  // Get user role from local storage
+
+  const localUser = localStorage.getItem("user")
+  let role = "";
+
+  if (localUser) {
+    const storedUser = JSON.parse(localUser);
+    role = storedUser.role
+  }
+
+
+  //
   const { user } = useAuthContext();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -52,9 +65,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+
         <Route path="/login" element={<Login />} />
 
-        {user ? (
+        {role == "S" ? (
           <Route path="/" element={<Dashboard />}>
             <Route path="" element={<Home />} />
             <Route path="/viewattendance" element={<ViewAttendance />} />
@@ -64,7 +78,7 @@ function App() {
           <Route path="*" element={<Navigate to="/login" replace />} />
         )}
 
-        {user ? (
+        {role == "T" ? (
           <Route path="/teacher" element={<TeacherDashboard />}>
             <Route path="/teacher" element={<TeacherHome />} />
             <Route path="/teacher/setupattendance" element={<SetupAttendance />} />
@@ -74,7 +88,7 @@ function App() {
           <Route path="*" element={<Navigate to="/login" replace />} />
         )}
 
-        {user ? (
+        {role == "A" ? (
           <Route path="/admin" element={<AdminDashboard />}>
             <Route path="/admin" element={<AdminHome />} />
             <Route path="/admin/complaints" element={<Complaints />} />

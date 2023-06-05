@@ -13,7 +13,7 @@
 
 a {
     text-decoration: none;
-    color: white;
+    /* color: white; */
 }
 
 a:hover {
@@ -51,7 +51,7 @@ a:hover {
 
 
 .logout {
-    color: white;
+    color: blue;
     margin-top: 1.7em;
 }
 

@@ -4,6 +4,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export const useLogin = () => {
+
+
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
 
@@ -16,8 +18,7 @@ export const useLogin = () => {
         setIsLoading(true)
         setError(null)
 
-        // console.log("User:", user);
-
+        // Get user role from local storage
 
         axios.post("http://localhost:4000/login", {
             username,
@@ -27,14 +28,28 @@ export const useLogin = () => {
             .then(res => {
                 console.log(res);
                 if (res.status === 200) {
-                    // save the user to local storage
+
+                    const role = res.data.role;
+
                     localStorage.setItem("user", JSON.stringify(res.data));
 
                     //update the Auth Context
                     dispatch({ type: "LOGIN", payload: res.data })
 
+                    if (role == "S") {
+                        navigate("/")
+                    }
+
+                    if (role == "T") {
+                        navigate("/teacher")
+                    }
+
+                    if (role == "A") {
+                        navigate("/admin")
+                    }
+
                     setIsLoading(false)
-                    navigate("/")
+
                 }
             })
             .catch(err => {
