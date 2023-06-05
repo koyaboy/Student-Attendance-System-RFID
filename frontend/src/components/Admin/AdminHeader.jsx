@@ -2,6 +2,15 @@ import React from "react"
 import "../../styles/Admin/AdminHeader.css"
 
 export default function Header() {
+
+    //Get stored user from local storage
+    const storedUser = localStorage.getItem("user")
+    let username = "";
+    if (storedUser) {
+        const user = JSON.parse(storedUser);
+        username = user.username;
+    }
+
     return (
         <div className="heading">
             <img src="../images/Dashboard/admin.png"
@@ -9,9 +18,8 @@ export default function Header() {
                 alt="adminImage" />
 
             <div className="heading--text">
-                <p className="name">ADEKOYA IREOLUWATOMIWA</p>
-                <p className="course">COMPUTER SCIENCE</p>
-                <p className="matric--number"><strong>19CG026387</strong></p>
+                <p className="welcome--back"><strong>WELCOME BACK</strong></p>
+                <p className="name">ADMIN: <strong>{username}</strong></p>
             </div>
         </div>
     )
