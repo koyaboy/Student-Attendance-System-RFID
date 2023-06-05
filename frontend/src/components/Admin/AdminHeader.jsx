@@ -4,9 +4,9 @@ import "../../styles/Admin/AdminHeader.css"
 export default function Header() {
     return (
         <div className="heading">
-            <img src="../images/Dashboard/student.png"
+            <img src="../images/Dashboard/admin.png"
                 className="studentImage"
-                alt="studentImage" />
+                alt="adminImage" />
 
             <div className="heading--text">
                 <p className="name">ADEKOYA IREOLUWATOMIWA</p>

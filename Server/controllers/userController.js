@@ -4,6 +4,7 @@ const Course = require("../models/Course")
 const Complaints = require("../models/Complaints")
 const Activity = require("../models/Activity")
 const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
 
 const createToken = (_id) => {
     return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" })
@@ -110,12 +111,20 @@ const getCourses = async (req, res) => {
 //ADMIN
 
 const addStudent = async (req, res) => {
+
     try {
         const { firstname, lastname, username, password, department, role, level, actionBy } = req.body
 
-        const student = await User.create({
-            firstname, lastname, username, password, department, level, role
-        })
+        const exists = await User.findOne({ username })
+
+        if (exists) {
+            throw Error("Username already in use")
+        }
+
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+
+        const student = await User.create({ firstname, lastname, username, password: hash, department, level, role })
 
         //Update Activity Table
         const activity = await Activity.create({
@@ -130,8 +139,6 @@ const addStudent = async (req, res) => {
         console.log(error)
         res.status(500).json({ message: "Failed to create student" })
     }
-
-
 }
 
 const getComplaints = async (req, res) => {
@@ -209,8 +216,17 @@ const addTeacher = async (req, res) => {
     try {
         const { title, firstname, lastname, username, password, department, role, actionBy } = req.body
 
+        const exists = await User.findOne({ username })
+
+        if (exists) {
+            throw Error("Username already in use")
+        }
+
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+
         const teacher = await User.create({
-            title, firstname, lastname, username, password, department, role
+            title, firstname, lastname, username, password: hash, department, role
         })
 
         const activity = await Activity.create({
