@@ -11,19 +11,53 @@ export default function Complaints() {
 
     const { user } = useAuthContext()
     const [complaints, setComplaints] = useState([])
+    const [viewComplaints, setViewComplaints] = useState("");
 
     useEffect(() => {
-        axios.get("http://localhost:4000/admin/complaints", {
-            headers: {
-                Authorization: `Bearer ${user.token}`
-            }
-        })
-            .then((res) => {
-                setComplaints(res.data)
-                console.log(res.data)
+        if (viewComplaints === "all") {
+            axios.get("http://localhost:4000/admin/complaints", {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
             })
-            .catch(error => console.log(error))
-    }, [])
+                .then((res) => {
+                    setComplaints(res.data)
+                    console.log(res.data)
+                })
+                .catch(error => console.log(error))
+        }
+
+        if (viewComplaints === "completed") {
+            axios.get("http://localhost:4000/admin/complaints", {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            })
+                .then((res) => {
+                    setComplaints(res.data)
+                    setComplaints((prevComplaints) =>
+                        prevComplaints.filter((complaint) => complaint.isCompleted === true)
+                    )
+                })
+                .catch(error => console.log(error))
+        }
+
+        if (viewComplaints === "pending") {
+            axios.get("http://localhost:4000/admin/complaints", {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            })
+                .then((res) => {
+                    setComplaints(res.data)
+                    setComplaints((prevComplaints) =>
+                        prevComplaints.filter((complaint) => complaint.isCompleted === false)
+                    )
+                })
+                .catch(error => console.log(error))
+        }
+    }, [viewComplaints])
+
 
     function handleComplete(complaintId, username) {
 
@@ -95,10 +129,15 @@ export default function Complaints() {
     return (
         <>
             <h2>Complaints</h2>
-            <select>
-                <option value="">All</option>
-                <option value="">Completed</option>
-                <option value="">Pending</option>
+            <select
+                name="viewComplaints"
+                value={viewComplaints}
+                onChange={(e) => setViewComplaints(e.target.value)}
+            >
+                <option default value="">-- View Complaints --</option>
+                <option value="all">All</option>
+                <option value="completed">Completed</option>
+                <option value="pending">Pending</option>
             </select>
             <div className="complaints-table">
                 <table className="table">
