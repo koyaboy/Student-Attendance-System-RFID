@@ -354,7 +354,7 @@ const updateCourse = async (req, res) => {
 }
 
 const updateTeacher = async (req, res) => {
-    const { title, firstname, lastname, username, password, department, role, actionBy } = req.body
+    const { title, firstname, lastname, username, password, department, role, coursesTaught, actionBy } = req.body
     const { teacherId } = req.params
 
     try {
@@ -371,6 +371,7 @@ const updateTeacher = async (req, res) => {
         teacher.password = password
         teacher.department = department
         teacher.role = role
+        teacher.courses = coursesTaught
 
         //Save Updated teacher
         teacher.save()

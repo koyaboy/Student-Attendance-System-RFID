@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { useAuthContext } from "../../hooks/useAuthContext"
@@ -10,16 +10,34 @@ export default function ManageTeachers() {
     const { user } = useAuthContext()
     const { teacherId } = useParams()
 
+
+    const [courses, setCourses] = useState([])
+
     const [title, setTitle] = useState("")
     const [firstname, setFirstName] = useState("")
     const [lastname, setLastName] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [coursesTaught, setCoursesTaught] = useState([])
     const [department, setDepartment] = useState("Computer Science")
     const [role, setRole] = useState("T")
 
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
+
+    useEffect(() => {
+        axios.get("http://localhost:4000/admin/getCourses", {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        })
+
+            .then((res) => {
+                setCourses(res.data)
+            })
+
+            .catch(err => console.log(err))
+    }, [])
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -32,7 +50,15 @@ export default function ManageTeachers() {
         }
 
         axios.put(`http://localhost:4000/admin/updateTeacher/${teacherId}`, {
-            title, firstname, lastname, username, password, department, role, actionBy
+            title,
+            firstname,
+            lastname,
+            username,
+            password,
+            department,
+            role,
+            actionBy,
+            coursesTaught: coursesTaught.map((course) => course._id),
         }, {
             headers: {
                 Authorization: `Bearer ${user.token}`
@@ -49,6 +75,16 @@ export default function ManageTeachers() {
                 console.log(err)
             })
     }
+
+    const handleCheckboxChange = (course) => {
+        const isChecked = coursesTaught.some((c) => c._id === course._id);
+
+        if (isChecked) {
+            setCoursesTaught(coursesTaught.filter((c) => c._id !== course._id));
+        } else {
+            setCoursesTaught([...coursesTaught, course]);
+        }
+    };
     return (
         <>
             <h2>Update Teacher</h2>
@@ -107,6 +143,29 @@ export default function ManageTeachers() {
                     onChange={(e) => setPassword(e.target.value)}
                     className="add-teacher-input"
                 />
+
+                <label className="add-teacher-label">Courses Taught</label>
+
+
+                {courses &&
+                    courses.map((course) => (
+                        <div key={course._id}>
+                            <input
+
+                                type="checkbox"
+                                id="coursesTaught"
+                                value={course._id}
+                                name="coursesTaught"
+                                checked={coursesTaught.some((c) => c._id === course._id)}
+                                onChange={() => handleCheckboxChange(course)}
+                            />
+
+                            <label htmlFor="coursesTaught">{course.code}</label>
+                        </div>
+                    )
+
+                    )
+                }
 
                 <label className="add-teacher-label">Department:</label>
                 <input

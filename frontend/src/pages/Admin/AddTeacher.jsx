@@ -151,7 +151,7 @@ export default function ManageTeachers() {
                 />
 
 
-                <label>Courses Taught</label>
+                <label className="add-teacher-label">Courses Taught</label>
 
 
                 {courses &&

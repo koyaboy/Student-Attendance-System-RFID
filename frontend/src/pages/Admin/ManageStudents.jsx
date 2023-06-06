@@ -17,6 +17,7 @@ export default function ManageStudents() {
             }
         })
             .then(res => {
+                console.log(res)
                 setStudents(res.data)
             })
             .catch(err => console.log(err))
