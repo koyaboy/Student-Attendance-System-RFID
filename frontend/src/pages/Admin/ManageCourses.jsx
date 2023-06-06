@@ -84,7 +84,12 @@ export default function ManageCourses() {
                                 <td>{course.title}</td>
                                 <td>{course.code}</td>
                                 <td>{course.description}</td>
-                                <td>{course.instructor}</td>
+                                <td>
+                                    {course.instructor.map((instructor) => (
+                                        <span key={instructor._id}>{instructor.title}. {instructor.firstname} {instructor.lastname}</span>
+                                    ))}
+                                </td>
+
                                 <td>
                                     <Link to={`/admin/updateCourse/${course._id}`}><button className="manage-courses-button edit">Edit</button></Link>
                                     <button

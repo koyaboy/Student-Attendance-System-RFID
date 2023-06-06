@@ -1,10 +1,12 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios"
 import { useAuthContext } from "../../hooks/useAuthContext"
 import "../../styles/Admin/AddCourse.css"
 
 export default function ManageCourses() {
+
+    const [teachers, setTeachers] = useState([])
 
     const [department, setDepartment] = useState("Computer Science")
     const [title, setTitle] = useState("")
@@ -12,12 +14,32 @@ export default function ManageCourses() {
     const [description, setDescription] = useState("")
     const [instructor, setInstructor] = useState("")
 
+    console.log(instructor)
+
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
 
     const { user } = useAuthContext()
 
+    useEffect(() => {
+        axios.get("http://localhost:4000/admin/getTeachers", {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        })
+
+            .then((res) => {
+                console.log(res)
+                setTeachers(res.data)
+            })
+
+            .catch((err) => {
+                console.log(err)
+            })
+    }, [])
+
     function handleSubmit(e) {
+
         e.preventDefault()
 
         const storedUser = localStorage.getItem("user")
@@ -72,6 +94,7 @@ export default function ManageCourses() {
                         value={department}
                         className="add-courses-input"
                         onChange={e => setDepartment(e.target.value)}
+                        readOnly
                     />
                 </div>
 
@@ -109,14 +132,46 @@ export default function ManageCourses() {
                 </div>
 
                 <div className="add-courses-group">
-                    <label className="add-courses-label">Course Instructor:</label>
-                    <input
+
+                    <fieldset>
+                        <legend className="add-courses-label">Course Instructor:</legend>
+
+                        {teachers &&
+                            teachers.map((teacher) => (
+                                <React.Fragment key={teacher._id}>
+                                    <input
+
+                                        type="radio"
+                                        name="instructor"
+                                        value={teacher._id}
+                                        checked={instructor === teacher._id}
+                                        htmlFor="instructor"
+                                        onChange={(e) => setInstructor(e.target.value)}
+                                    />
+
+                                    <label
+                                        id="instructor">
+                                        {teacher.title}. {teacher.firstname} {teacher.lastname}
+                                    </label>
+
+                                    <br />
+                                    <br />
+
+                                </React.Fragment>
+                            ))
+
+                        }
+
+                    </fieldset>
+
+
+                    {/* <input
                         type="text"
                         name="instructor"
                         value={instructor}
                         className="add-courses-input"
                         onChange={e => setInstructor(e.target.value)}
-                    />
+                    /> */}
                 </div>
 
                 <button className="add-courses-submit">Submit</button>

@@ -165,7 +165,7 @@ const createCourse = async (req, res) => {
             title,
             code,
             description,
-            instructor
+            instructor: [instructor]
         })
 
         //Update Activity Table
@@ -187,7 +187,7 @@ const createCourse = async (req, res) => {
 
 const adminGetCourses = async (req, res) => {
     try {
-        const courses = await Course.find({})
+        const courses = await Course.find({}).populate("instructor")
         res.status(200).json(courses)
 
     } catch (error) {
