@@ -218,35 +218,41 @@ const adminGetTeachers = async (req, res) => {
 
 const addTeacher = async (req, res) => {
     try {
-        const { title, firstname, lastname, username, password, department, role, actionBy } = req.body
+        const { title, firstname, lastname, username, password, department, role, actionBy, coursesTaught } = req.body;
 
-        const exists = await User.findOne({ username })
+        const exists = await User.findOne({ username });
 
         if (exists) {
-            throw Error("Username already in use")
+            throw Error("Username already in use");
         }
 
-        const salt = await bcrypt.genSalt(10)
-        const hash = await bcrypt.hash(password, salt)
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
 
         const teacher = await User.create({
-            title, firstname, lastname, username, password: hash, department, role
-        })
+            title,
+            firstname,
+            lastname,
+            username,
+            password: hash,
+            department,
+            role,
+            courses: coursesTaught, // Assign the selected courses to the teacher
+        });
 
         const activity = await Activity.create({
             timestamp: Date.now(),
             action: `Teacher ${title}. ${firstname} ${lastname} created Successfully`,
-            actionBy: actionBy
-        })
+            actionBy,
+        });
 
-        res.status(200).json(teacher)
-
-
+        res.status(200).json(teacher);
     } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: "Failed to create Teacher" })
+        console.log(error);
+        res.status(500).json({ message: "Failed to create Teacher" });
     }
-}
+};
+
 
 const getActivity = async (req, res) => {
     try {
