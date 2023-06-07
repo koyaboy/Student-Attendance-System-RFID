@@ -172,6 +172,15 @@ const createCourse = async (req, res) => {
             instructor: [instructor]
         })
 
+        //Update Instructor Courses
+
+        const Instructor = await User.findOne({ _id: { $in: instructor } })
+        if (!Instructor) {
+            return res.status(404).json({ message: "Instructor not found" });
+        }
+        Instructor.courses.push(course._id)
+        await Instructor.save()
+
         //Update Activity Table
         const activity = await Activity.create({
             timestamp: Date.now(),
@@ -243,6 +252,14 @@ const addTeacher = async (req, res) => {
             role,
             courses: coursesTaught, // Assign the selected courses to the teacher
         });
+
+        //Update Instructor field in Course Table
+        await Course.updateMany(
+            { _id: { $in: coursesTaught.map(course => course._id) } },
+            { instructor: teacher._id }
+        );
+
+
 
         const activity = await Activity.create({
             timestamp: Date.now(),

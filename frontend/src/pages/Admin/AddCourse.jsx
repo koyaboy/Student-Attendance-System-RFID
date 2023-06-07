@@ -14,8 +14,6 @@ export default function ManageCourses() {
     const [description, setDescription] = useState("")
     const [instructor, setInstructor] = useState("")
 
-    console.log(instructor)
-
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
 
