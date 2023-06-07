@@ -17,8 +17,6 @@ export default function Home() {
         })
             .then((res) => {
                 setCourses(res.data)
-                console.log(res.data)
-                console.log(courses);
             })
             .catch(error => console.log(error))
     }, [])

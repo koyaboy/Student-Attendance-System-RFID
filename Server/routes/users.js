@@ -10,6 +10,7 @@ const {
     loginUser,
     viewAttendance,
     complaintsForm,
+    markAttendance,
     addStudent,
     getCourses,
     getComplaints,
@@ -28,6 +29,8 @@ const {
     deleteCourse,
     deleteTeacher,
     deleteComplaint,
+    getTeacherCourses,
+    setupAttendance
 } = require("../controllers/userController");
 
 router.post("/login", loginUser);
@@ -40,6 +43,7 @@ const studentRouter = express.Router();
 // studentRouter.use(restrictToRole("S"));
 studentRouter.get("/viewattendance", viewAttendance);
 studentRouter.get("/courses/:username", getCourses);
+studentRouter.post("/attendance", markAttendance)
 studentRouter.post("/viewattendance", (req, res) => {
     res.json({ msg: "Attendance uploaded" });
 });
@@ -66,8 +70,13 @@ adminRouter.delete("/deleteCourse/:courseId/:courseCode/:actionBy", deleteCourse
 adminRouter.delete("/deleteTeacher/:teacherId/:username/:actionBy", deleteTeacher);
 adminRouter.delete("/deleteComplaint/:complaintId/:actionBy", deleteComplaint);
 
-// Register the student and admin routers
+const teacherRouter = express.Router()
+teacherRouter.get("/getTeacherCourses/:username", getTeacherCourses);
+teacherRouter.put("/setupAttendance", setupAttendance);
+
+// Register the student, admin and teacher routers
 router.use("/", studentRouter);
 router.use("/admin", adminRouter);
+router.use("/teacher", teacherRouter);
 
 module.exports = router;

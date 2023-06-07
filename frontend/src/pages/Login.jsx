@@ -32,6 +32,7 @@ export default function Login() {
     return (
         <div className="login">
             <div className="form">
+                <h2 className="form--title">Student Attendance System</h2>
                 <div className="error-message">
                     {error && error}
                 </div>

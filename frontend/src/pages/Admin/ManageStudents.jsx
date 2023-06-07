@@ -62,6 +62,7 @@ export default function ManageStudents() {
                         <th>Username</th>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>RFID TAG</th>
                         <th>Level</th>
                         <th>Action</th>
                     </tr>
@@ -73,6 +74,7 @@ export default function ManageStudents() {
                                 <td>{student.username}</td>
                                 <td>{student.firstname}</td>
                                 <td>{student.lastname}</td>
+                                <td>{student.rfidTag}</td>
                                 <td>{student.level}</td>
                                 <td>
                                     <Link to={`/admin/updateStudent/${student._id}`}><button className="manage-students-button edit">Edit</button></Link>

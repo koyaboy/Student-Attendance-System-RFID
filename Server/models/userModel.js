@@ -32,6 +32,10 @@ const userSchema = new Schema({
         ref: "Course",
     },
 
+    rfidTag: {
+        type: String
+    },
+
     department: {
         type: String
     },

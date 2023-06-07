@@ -12,6 +12,7 @@ export default function ManageStudents() {
     const [password, setPassword] = useState("")
     const [level, setLevel] = useState("")
     const [courses, setCourses] = useState([])
+    const [rfidTag, setRfidTag] = useState("")
     const [department, setDepartment] = useState("Computer Science")
     const [role, setRole] = useState("S")
 
@@ -55,6 +56,7 @@ export default function ManageStudents() {
             department,
             role,
             courses,
+            rfidTag,
             actionBy
         }, {
             headers: {
@@ -124,6 +126,17 @@ export default function ManageStudents() {
                         name="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        className="add-student-input"
+                    />
+                </div>
+
+                <div className="add-student-group">
+                    <label className="add-student-label">RFID TAG:</label>
+                    <input
+                        type="text"
+                        name="rfidTag"
+                        value={rfidTag}
+                        onChange={(e) => setRfidTag(e.target.value)}
                         className="add-student-input"
                     />
                 </div>

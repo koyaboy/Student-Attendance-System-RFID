@@ -86,6 +86,10 @@ const complaintsForm = async (req, res) => {
 
 }
 
+const markAttendance = async (req, res) => {
+
+}
+
 const getCourses = async (req, res) => {
     try {
         const { username } = req.params;
@@ -121,7 +125,7 @@ const getCourses = async (req, res) => {
 const addStudent = async (req, res) => {
 
     try {
-        const { firstname, lastname, username, password, department, role, level, courses, actionBy } = req.body
+        const { firstname, lastname, username, password, department, role, level, courses, rfidTag, actionBy } = req.body
 
         const exists = await User.findOne({ username })
 
@@ -132,7 +136,7 @@ const addStudent = async (req, res) => {
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
 
-        const student = await User.create({ firstname, lastname, username, password: hash, department, courses, level, role })
+        const student = await User.create({ firstname, lastname, username, password: hash, department, courses, rfidTag, level, role })
 
         //Update Activity Table
         const activity = await Activity.create({
@@ -254,10 +258,7 @@ const addTeacher = async (req, res) => {
         });
 
         //Update Instructor field in Course Table
-        await Course.updateMany(
-            { _id: { $in: coursesTaught.map(course => course._id) } },
-            { instructor: teacher._id }
-        );
+        const course = await Course.findOne({ _id: { $in: coursesTaught.map(course => course._id) } });
 
 
 
@@ -304,20 +305,24 @@ const getComplaintsData = async (req, res) => {
 
 const updateStudent = async (req, res) => {
     try {
-        const { id, firstname, lastname, username, password, level, department, role, actionBy } = req.body
+        const { id, firstname, lastname, username, password, level, department, role, rfidTag, actionBy } = req.body
         const student = await User.findById(id)
 
         if (!student) {
             return res.status(404).json({ message: 'Student not found' })
         }
 
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+
         student.firstname = firstname;
         student.lastname = lastname;
         student.username = username;
-        student.password = password;
+        student.password = hash;
         student.level = level;
         student.department = department;
         student.role = role;
+        student.rfidTag = rfidTag;
 
         // Save the updated student
         await student.save();
@@ -385,11 +390,14 @@ const updateTeacher = async (req, res) => {
             res.status(404).json({ message: "Teacher Not Found" })
         }
 
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+
         teacher.title = title
         teacher.firstname = firstname
         teacher.lastname = lastname
         teacher.username = username
-        teacher.password = password
+        teacher.password = hash
         teacher.department = department
         teacher.role = role
         teacher.courses = coursesTaught
@@ -545,12 +553,58 @@ const deleteComplaint = async (req, res) => {
     }
 }
 
+const getTeacherCourses = async (req, res) => {
+    const { username } = req.params
+    try {
 
+        const teacher = await User.findOne({ username }).populate({
+            path: "courses",
+            populate: {
+                path: "instructor",
+                model: "User"
+            }
+        })
+
+        if (!teacher) {
+            res.status(404).json({ message: "Teacher Not Found" })
+        }
+        res.status(200).json(teacher.courses)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to Retrieve Teacher Courses" })
+    }
+}
+
+const setupAttendance = async (req, res) => {
+    const { selectedCourse, startTime, endTime } = req.body
+
+    try {
+        console.log("course: " + selectedCourse)
+        const course = await Course.findById(selectedCourse)
+
+        if (!course) {
+            res.status(404).json({ message: "Course Not Found" })
+        }
+
+        // console.log(startTime.toLocalString())
+        course.startTime = startTime;
+        course.endTime = endTime;
+
+        await course.save();
+
+        res.status(200).json(course)
+
+    } catch (error) {
+        // console.log(error)
+        res.status(500).json({ message: "Could not setup Attendance" })
+    }
+}
 
 module.exports = {
     loginUser,
     viewAttendance,
     complaintsForm,
+    markAttendance,
     addStudent,
     getCourses,
     complaintsForm,
@@ -569,7 +623,9 @@ module.exports = {
     deleteStudent,
     deleteCourse,
     deleteTeacher,
-    deleteComplaint
+    deleteComplaint,
+    getTeacherCourses,
+    setupAttendance
 }
 
 //6472269d27849edf3ecbe348 (csc 424)
