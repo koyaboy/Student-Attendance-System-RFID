@@ -87,13 +87,17 @@ const complaintsForm = async (req, res) => {
 }
 
 const getCourses = async (req, res) => {
-
     try {
-        const { username } = req.params
+        const { username } = req.params;
 
-        //Retrieve the User document based on the username
-        const user = await User.findOne({ username }).populate("courses")
-        console.log(user);
+        // Retrieve the User document based on the username
+        const user = await User.findOne({ username }).populate({
+            path: "courses",
+            populate: {
+                path: "instructor",
+                model: "User" // Replace "Instructor" with the actual model name of the instructor
+            }
+        });
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -106,8 +110,8 @@ const getCourses = async (req, res) => {
         console.log(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
+};
 
-}
 
 
 
@@ -117,7 +121,7 @@ const getCourses = async (req, res) => {
 const addStudent = async (req, res) => {
 
     try {
-        const { firstname, lastname, username, password, department, role, level, actionBy } = req.body
+        const { firstname, lastname, username, password, department, role, level, courses, actionBy } = req.body
 
         const exists = await User.findOne({ username })
 
@@ -128,7 +132,7 @@ const addStudent = async (req, res) => {
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
 
-        const student = await User.create({ firstname, lastname, username, password: hash, department, level, role })
+        const student = await User.create({ firstname, lastname, username, password: hash, department, courses, level, role })
 
         //Update Activity Table
         const activity = await Activity.create({

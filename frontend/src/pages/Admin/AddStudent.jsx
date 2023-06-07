@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "../../styles/Admin/AddStudent.css"
 import axios from "axios";
 import { useAuthContext } from "../../hooks/useAuthContext"
@@ -11,6 +11,7 @@ export default function ManageStudents() {
     const [username, setUserName] = useState("")
     const [password, setPassword] = useState("")
     const [level, setLevel] = useState("")
+    const [courses, setCourses] = useState([])
     const [department, setDepartment] = useState("Computer Science")
     const [role, setRole] = useState("S")
 
@@ -20,6 +21,20 @@ export default function ManageStudents() {
     const { user } = useAuthContext()
 
 
+
+    useEffect(() => {
+        axios.get("http://localhost:4000/admin/getCourses", {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        })
+
+            .then((res) => {
+                setCourses(res.data)
+            })
+
+            .catch(err => console.log(err))
+    }, [])
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -39,6 +54,7 @@ export default function ManageStudents() {
             level,
             department,
             role,
+            courses,
             actionBy
         }, {
             headers: {

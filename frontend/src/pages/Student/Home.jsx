@@ -33,7 +33,14 @@ export default function Home() {
                     </div>
                     <div className="card-body">
                         <p className="course-description">{course.description}</p>
-                        <p className="course-details">Instructor: {course.Instructor}</p>
+                        <p className="course-details">Instructor:
+                            {course.instructor.map((instructor) => (
+                                <span key={instructor._id}>{instructor.title}. {instructor.firstname} {instructor.lastname}</span>
+                            )
+
+                            )}
+
+                        </p>
                     </div>
                 </div>
             ))}
