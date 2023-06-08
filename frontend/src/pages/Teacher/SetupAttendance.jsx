@@ -51,67 +51,59 @@ export default function SetupAttendance() {
             .then(res => console.log(res))
             .catch(err => console.log(err))
     }
+
     return (
-        <div>
+        <>
+            <select
+                name="selectedCourse"
+                value={selectedCourse}
+                onChange={(e) => setSelectedCourse(e.target.value)}
+            >
 
-            {
-                coursesTaught.map((course) => (
+                <option default value="">-- SELECT COURSE --</option>
+                {
+                    coursesTaught.map((course) => (
+                        <option value={course._id}> {course.code}</option>
+                    ))
 
-                    <>
-                        <select
-                            name="selectedCourse"
-                            value={selectedCourse}
-                            onChange={(e) => setSelectedCourse(e.target.value)}
-                        >
+                }
 
-                            <option default value="">-- SELECT COURSE --</option>
-                            <option
-                                value={course._id}
-                            >
-                                {course.code}
-                            </option>
+            </select >
 
-                        </select >
+            <form onSubmit={handleSubmit}>
 
-                        <form onSubmit={handleSubmit}>
-
-                            <label htmlFor="date">
-                                Date:
-                            </label>
-                            <input
-                                type="Date"
-                                id="date"
-                                name="date"
-                                value={date}
-                                onChange={(e) => setDate(e.target.value)}
-                            />
+                <label htmlFor="date">
+                    Date:
+                </label>
+                <input
+                    type="Date"
+                    id="date"
+                    name="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                />
 
 
-                            <label htmlFor="startTime">Start Time: </label>
-                            <input
-                                type="time"
-                                id="startTime"
-                                name="startTime"
-                                value={startTime}
-                                onChange={(e) => setStartTime(e.target.value)}
-                            />
+                <label htmlFor="startTime">Start Time: </label>
+                <input
+                    type="time"
+                    id="startTime"
+                    name="startTime"
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
+                />
 
-                            <label htmlFor="endTime">Set End Time: </label>
-                            <input
-                                type="time"
-                                id="endTime"
-                                name="endTime"
-                                value={endTime}
-                                onChange={(e) => setEndTime(e.target.value)}
-                            />
+                <label htmlFor="endTime">Set End Time: </label>
+                <input
+                    type="time"
+                    id="endTime"
+                    name="endTime"
+                    value={endTime}
+                    onChange={(e) => setEndTime(e.target.value)}
+                />
 
-                            <button>SETUP</button>
-                        </form>
-                    </>
-
-                ))
-            }
-
-        </div>
+                <button>SETUP</button>
+            </form>
+        </>
     )
 }
