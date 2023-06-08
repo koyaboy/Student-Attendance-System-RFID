@@ -30,7 +30,8 @@ const {
     deleteTeacher,
     deleteComplaint,
     getTeacherCourses,
-    setupAttendance
+    setupAttendance,
+    getAttendance
 } = require("../controllers/userController");
 
 router.post("/login", loginUser);
@@ -73,6 +74,7 @@ adminRouter.delete("/deleteComplaint/:complaintId/:actionBy", deleteComplaint);
 const teacherRouter = express.Router()
 teacherRouter.get("/getTeacherCourses/:username", getTeacherCourses);
 teacherRouter.put("/setupAttendance", setupAttendance);
+teacherRouter.get("/getAttendance/:courseId/:date", getAttendance);
 
 // Register the student, admin and teacher routers
 router.use("/", studentRouter);

@@ -600,6 +600,31 @@ const setupAttendance = async (req, res) => {
     }
 }
 
+const getAttendance = async (req, res) => {
+    const { courseId, date } = req.params
+
+    console.log(date)
+
+
+    try {
+        const attendance = await Attendance.find({ date, course_id: courseId }).populate({
+            path: "username",
+            select: "username firstname lastname"
+        })
+
+        if (!attendance) {
+            res.status(404).json({ message: "Attendance Record Not Found" })
+        }
+
+        res.status(200).json(attendance)
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to retrieve Attendance" })
+    }
+
+}
+
 module.exports = {
     loginUser,
     viewAttendance,
@@ -625,7 +650,8 @@ module.exports = {
     deleteTeacher,
     deleteComplaint,
     getTeacherCourses,
-    setupAttendance
+    setupAttendance,
+    getAttendance
 }
 
 //6472269d27849edf3ecbe348 (csc 424)

@@ -36,7 +36,6 @@ export default function SetupAttendance() {
 
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(startTime)
         axios.put("http://localhost:4000/teacher/setupAttendance", {
             selectedCourse,
             date,
@@ -63,7 +62,7 @@ export default function SetupAttendance() {
                 <option default value="">-- SELECT COURSE --</option>
                 {
                     coursesTaught.map((course) => (
-                        <option value={course._id}> {course.code}</option>
+                        <option key={course._id} value={course._id}> {course.code}</option>
                     ))
 
                 }
@@ -84,7 +83,7 @@ export default function SetupAttendance() {
                 />
 
 
-                <label htmlFor="startTime">Start Time: </label>
+                <label htmlFor="startTime">Set Start Time: </label>
                 <input
                     type="time"
                     id="startTime"

@@ -8,6 +8,7 @@ const attendanceSchema = new Schema({
         type: Schema.Types.ObjectId, ref: "User",
         required: true
     },
+
     course_id:
     {
         type: Schema.Types.ObjectId, ref: "Course"
@@ -25,3 +26,7 @@ const attendanceSchema = new Schema({
 });
 
 module.exports = mongoose.model("Attendance", attendanceSchema)
+
+//username: 647f9dd324406d88b085bcb8
+//course_id: 648079a5866b254211c3d4ba
+// date: "2023-06-08T00:00:00.000Z"
