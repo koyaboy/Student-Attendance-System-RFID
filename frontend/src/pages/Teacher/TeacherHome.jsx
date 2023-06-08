@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import "../../styles/Student/Home.css"
+import "../../styles/Student/Home.css"
 import { useAuthContext } from "../../hooks/useAuthContext"
 
 export default function TeacherHome() {
@@ -33,7 +33,7 @@ export default function TeacherHome() {
     }, [])
 
     return (
-        <div>
+        <>
             {coursesTaught &&
 
                 coursesTaught.map((course) => (
@@ -55,6 +55,6 @@ export default function TeacherHome() {
                         </div>
                     </div>
                 ))}
-        </div>
+        </>
     )
 }
