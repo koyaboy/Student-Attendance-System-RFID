@@ -8,6 +8,7 @@ export default function SetupAttendance() {
     const [coursesTaught, setCoursesTaught] = useState([])
 
     const [selectedCourse, setSelectedCourse] = useState("")
+    const [date, setDate] = useState("")
     const [startTime, setStartTime] = useState("")
     const [endTime, setEndTime] = useState("")
 
@@ -38,6 +39,7 @@ export default function SetupAttendance() {
         console.log(startTime)
         axios.put("http://localhost:4000/teacher/setupAttendance", {
             selectedCourse,
+            date,
             startTime,
             endTime
         }, {
@@ -72,6 +74,18 @@ export default function SetupAttendance() {
                         </select >
 
                         <form onSubmit={handleSubmit}>
+
+                            <label htmlFor="date">
+                                Date:
+                            </label>
+                            <input
+                                type="Date"
+                                id="date"
+                                name="date"
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                            />
+
 
                             <label htmlFor="startTime">Start Time: </label>
                             <input

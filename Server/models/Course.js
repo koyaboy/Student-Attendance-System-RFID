@@ -6,7 +6,7 @@ const courseSchema = new mongoose.Schema({
     code: { type: String, required: true },
     description: { type: String, required: true },
     instructor: { type: [mongoose.Schema.Types.ObjectId], ref: "User" },
-
+    date: { type: Date },
     startTime: { type: String },
     endTime: { type: String }
 });

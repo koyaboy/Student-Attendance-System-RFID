@@ -576,19 +576,19 @@ const getTeacherCourses = async (req, res) => {
 }
 
 const setupAttendance = async (req, res) => {
-    const { selectedCourse, startTime, endTime } = req.body
+    const { selectedCourse, date, startTime, endTime } = req.body
 
     try {
-        console.log("course: " + selectedCourse)
+
         const course = await Course.findById(selectedCourse)
 
         if (!course) {
             res.status(404).json({ message: "Course Not Found" })
         }
 
-        // console.log(startTime.toLocalString())
-        course.startTime = startTime;
-        course.endTime = endTime;
+        course.date = date;
+        course.startTime = startTime.toLocaleString();
+        course.endTime = endTime.toLocaleString();
 
         await course.save();
 
