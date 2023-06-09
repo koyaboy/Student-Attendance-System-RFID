@@ -9,7 +9,6 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-
     },
 
     password: {
@@ -30,6 +29,11 @@ const userSchema = new Schema({
     courses: {
         type: [Schema.Types.ObjectId],
         ref: "Course",
+    },
+
+    attendance: {
+        type: [Schema.Types.ObjectId],
+        ref: "Attendance"
     },
 
     rfidTag: {

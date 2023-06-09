@@ -39,12 +39,14 @@ router.post("/login", loginUser);
 // Middleware
 router.use(authMiddleware);
 
+
+
 // STUDENT ROUTES
 const studentRouter = express.Router();
 // studentRouter.use(restrictToRole("S"));
 studentRouter.get("/viewattendance", viewAttendance);
 studentRouter.get("/courses/:username", getCourses);
-studentRouter.post("/attendance", markAttendance)
+studentRouter.post("/markAttendance", markAttendance)
 studentRouter.post("/viewattendance", (req, res) => {
     res.json({ msg: "Attendance uploaded" });
 });

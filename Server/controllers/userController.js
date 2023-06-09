@@ -88,6 +88,58 @@ const complaintsForm = async (req, res) => {
 
 const markAttendance = async (req, res) => {
 
+    const { rfidTag } = req.body
+
+    try {
+        const student = await User.findOne({ rfidTag })
+
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        // Get the current time
+        const currentTime = new Date();
+
+        // Find the course with the given start and end time windows
+        const course = await Course.findOne({
+            $or: [
+                {
+                    entryWindow1Start: { $lte: currentTime },
+                    entryWindow1End: { $gte: currentTime },
+                },
+                {
+                    entryWindow2Start: { $lte: currentTime },
+                    entryWindow2End: { $gte: currentTime },
+                },
+            ],
+        });
+
+
+        if (!course) {
+            return res.status(404).json({ message: "No active course found" });
+        }
+
+
+        // Checking if attendance count is 2 
+
+
+        // Mark Attendance and Update the attendance schema for the student in the course
+        const attendance = new Attendance({
+            username: student._id,
+            course_id: course._id,
+            date: currentTime,
+            present: true,
+        });
+
+        await attendance.save();
+
+        res.status(200).json({ message: "Attendance marked successfully" });
+
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Failed to Mark Attendance" })
+    }
 }
 
 const getCourses = async (req, res) => {
@@ -576,7 +628,15 @@ const getTeacherCourses = async (req, res) => {
 }
 
 const setupAttendance = async (req, res) => {
-    const { selectedCourse, date, startTime, endTime } = req.body
+    const
+        { selectedCourse,
+            date,
+            startTime,
+            endTime,
+            attendance1Start,
+            attendance1End,
+            attendance2Start,
+            attendance2End } = req.body
 
     try {
 
@@ -586,9 +646,15 @@ const setupAttendance = async (req, res) => {
             res.status(404).json({ message: "Course Not Found" })
         }
 
+
+
         course.date = date;
         course.startTime = startTime.toLocaleString();
         course.endTime = endTime.toLocaleString();
+        course.entryWindow1Start = attendance1Start;
+        course.entryWindow1End = attendance1End;
+        course.entryWindow2Start = attendance2Start;
+        course.entryWindow2End = attendance2End;
 
         await course.save();
 
@@ -602,8 +668,6 @@ const setupAttendance = async (req, res) => {
 
 const getAttendance = async (req, res) => {
     const { courseId, date } = req.params
-
-    console.log(date)
 
 
     try {
