@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import "../../styles/Teacher/UploadAttendance.css";
 
 export default function UploadAttendance() {
     const { user } = useAuthContext();
@@ -54,18 +55,22 @@ export default function UploadAttendance() {
             .catch((err) => console.log(err));
     }
 
+    function handleUpload(e) {
+        e.preventDefault();
+    }
+
     return (
         <>
-            <form onSubmit={handleFindAttendance}>
+            <form className="upload-form" onSubmit={handleFindAttendance}>
                 <select
                     name="selectedCourse"
                     value={selectedCourse}
                     onChange={(e) => setSelectedCourse(e.target.value)}
+                    className="course-select"
                 >
                     <option default value="">
                         -- SELECT COURSE --
                     </option>
-
                     {coursesTaught.map((course) => (
                         <option key={course._id} value={course._id}>
                             {course.code}
@@ -73,25 +78,29 @@ export default function UploadAttendance() {
                     ))}
                 </select>
 
-                <label htmlFor="date">Date</label>
+                <label htmlFor="date" className="date-label">
+                    Date
+                </label>
                 <input
                     type="date"
                     name="date"
                     id="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
+                    className="date-input"
                 />
 
-                <button>FIND</button>
+                <button className="find-button">FIND</button>
             </form>
 
-            <table>
+            <table className="attendance-table">
                 <thead>
                     <tr>
                         <th>Matric Number</th>
                         <th>Surname</th>
                         <th>First Name</th>
                         <th>Present</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
@@ -100,13 +109,20 @@ export default function UploadAttendance() {
                         attendances.map((attendance) => (
                             <tr key={attendance._id}>
                                 <td>{attendance.username.username}</td>
-                                <td>{attendance.username.firstname}</td>
                                 <td>{attendance.username.lastname}</td>
+                                <td>{attendance.username.firstname}</td>
                                 <td>{attendance.present ? "1" : "0"}</td>
+                                <td>
+                                    <button className="edit-button">Edit</button>
+                                </td>
                             </tr>
                         ))}
                 </tbody>
             </table>
+
+            <form onSubmit={handleUpload}>
+                {attendances && <button className="upload-button">UPLOAD</button>}
+            </form>
         </>
     );
 }
