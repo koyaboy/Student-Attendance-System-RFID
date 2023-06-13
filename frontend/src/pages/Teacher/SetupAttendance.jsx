@@ -60,7 +60,17 @@ export default function SetupAttendance() {
                     },
                 }
             )
-            .then((res) => console.log(res))
+            .then((res) => {
+                console.log(res)
+                setSelectedCourse("")
+                setDate("")
+                setStartTime("")
+                setEndTime("")
+                setAttendance1Start("")
+                setAttendance1End("")
+                setAttendance2Start("")
+                setAttendance2End("")
+            })
             .catch((err) => console.log(err));
     }
 
