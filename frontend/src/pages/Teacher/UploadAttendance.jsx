@@ -59,6 +59,17 @@ export default function UploadAttendance() {
         e.preventDefault();
     }
 
+    function handleToggle(attendanceId) {
+        setAttendances((prevAttendances) =>
+            prevAttendances.map((attendance) => {
+                if (attendance._id === attendanceId) {
+                    return { ...attendance, present: !attendance.present }
+                }
+                return attendance
+            })
+        )
+    }
+
     return (
         <>
             <form className="upload-form" onSubmit={handleFindAttendance}>
@@ -113,7 +124,12 @@ export default function UploadAttendance() {
                                 <td>{attendance.username.firstname}</td>
                                 <td>{attendance.present ? "1" : "0"}</td>
                                 <td>
-                                    <button className="edit-button">Edit</button>
+                                    <button
+                                        className="edit-button"
+                                        onClick={() => handleToggle(attendance._id)}
+                                    >
+                                        Toggle Attendance
+                                    </button>
                                 </td>
                             </tr>
                         ))}
