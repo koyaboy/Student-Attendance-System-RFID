@@ -1,15 +1,16 @@
 #include <WiFi.h>
+#include <HTTPClient.h>
 #include <SPI.h>
 #include <MFRC522.h>
 #include <ArduinoJson.h>
 
 // Replace with your Wi-Fi credentials
-char ssid[] = "MARAZ-DEVV";
-char password[] = "techrules.....";
+char ssid[] = "BIG SLAUGHTER";
+char password[] = "SUP3RSLIME";
 
 // Replace with your MongoDB server details
-const char* mongodbServer = "mongodb://localhost:27017";
-const int mongodbPort = 27017;
+const char* serverAddress = "172.16.120.174";
+const int serverPort = 4000;
 const char* mongodbDatabase = "mydb";
 const char* mongodbCollection = "attendances";
 
@@ -20,6 +21,7 @@ const char* mongodbCollection = "attendances";
 MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
 
 String getRFIDTag();
+String getJWTToken(const String& rfidTag);  // Modified function signature
 
 void setup() {
   Serial.begin(115200);
@@ -47,38 +49,43 @@ void loop() {
     String rfidTag = getRFIDTag();
     Serial.println("Card/Tag detected: " + rfidTag);
 
-    // Create JSON payload
-    DynamicJsonDocument jsonDocument(200);
-    jsonDocument["rfidTag"] = rfidTag;
+//    String token = getJWTToken(rfidTag);  // Retrieve the JWT token value
 
-    // Serialize JSON to string
-    String jsonString;
-    serializeJson(jsonDocument, jsonString);
+//    Serial.println("Token: " + token);
+    
+//    String recv_token = token; // Complete Bearer token
+//     recv_token = "Bearer " + recv_token;  // Adding "Bearer " before token
 
-    // Send POST request to MongoDB server
-    WiFiClient client;
-    if (client.connect(mongodbServer, mongodbPort)) {
-      client.print("POST /" + String(mongodbDatabase) + "/" + String(mongodbCollection) + " HTTP/1.1\r\n");
-      client.print("Host: " + String(mongodbServer) + "\r\n");
-      client.print("Content-Type: application/json\r\n");
-      client.print("Content-Length: " + String(jsonString.length()) + "\r\n");
-      client.print("\r\n");
-      client.print(jsonString);
-      client.print("\r\n");
+      HTTPClient http;
 
-      // Read the response
-      while (client.connected()) {
-        String line = client.readStringUntil('\n');
-        if (line == "\r") {
-          break;
-        }
+      http.begin("https://student-attendance-system-backend.up.railway.app/markAttendance");
+      http.addHeader("Content-Type", "application/json");
+    
+
+      // Create a JSON payload object
+      StaticJsonDocument<200> jsonPayload;
+
+      jsonPayload["rfidTag"] = rfidTag;
+
+      // Serialize the JSON payload
+      String payload;
+      serializeJson(jsonPayload, payload);
+
+      Serial.println("PAYLOAD FOR MARK ATTENDANCE: " + payload);
+
+      int httpCode = http.POST(payload);
+
+      if (httpCode > 0) { // Check for the returning code
+        String responsePayload = http.getString();
+        Serial.println(httpCode);
+        Serial.println(responsePayload);
+      } else {
+        Serial.println(httpCode);
+        Serial.println("Error on HTTP request");
       }
-      String responsePayload = client.readString();
 
-      client.stop();
-
-      Serial.println("Response Body: " + responsePayload);
-    }
+      http.end();
+   
   }
 }
 
@@ -96,3 +103,51 @@ String getRFIDTag() {
 
   return rfidTag;
 }
+
+//String getJWTToken(const String& rfidTag) {
+//  HTTPClient http;
+//
+//  http.begin("https://student-attendance-system-backend.up.railway.app/generateToken");
+//  http.addHeader("Content-Type", "application/json"); // Set the content type to JSON
+//
+//  // Create a JSON payload object
+//  StaticJsonDocument<200> jsonPayload;
+//
+//  jsonPayload["rfidTag"] = rfidTag;
+//
+//  // Serialize the JSON payload
+//  String payload;
+//  serializeJson(jsonPayload, payload);
+//
+//  Serial.println("PAYLOAD: " + payload);
+//
+//  int httpCode = http.POST(payload);
+//
+//  if (httpCode > 0) { // Check for the returning code
+//    String responsePayload = http.getString();
+//    Serial.println(httpCode);
+//    Serial.println(responsePayload);
+//
+//    // Parse the JSON response
+//    StaticJsonDocument<200> jsonResult;
+//    DeserializationError error = deserializeJson(jsonResult, responsePayload);
+//
+//    // Check if parsing succeeded
+//    if (error) {
+//      Serial.println("Error parsing JSON");
+//      return "";
+//    }
+//
+//    // Extract the token value
+//    const char* tokenValue = jsonResult["token"];
+//
+//    // Return the token value as a String
+//    return String(tokenValue);
+//  } else {
+//    Serial.println(httpCode);
+//    Serial.println("Error on HTTP request");
+//  }
+//
+//  http.end();
+//  return "";
+//}
