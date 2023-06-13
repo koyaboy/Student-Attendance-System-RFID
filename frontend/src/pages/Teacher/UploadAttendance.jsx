@@ -11,6 +11,9 @@ export default function UploadAttendance() {
     const [selectedCourse, setSelectedCourse] = useState("");
     const [date, setDate] = useState("");
 
+    const [success, setSuccess] = useState("");
+    const [error, setError] = useState("")
+
     // GET USER FROM LOCAL STORAGE
 
     const storedUser = localStorage.getItem("user");
@@ -30,6 +33,7 @@ export default function UploadAttendance() {
             .then((res) => {
                 console.log(res);
                 setCoursesTaught(res.data);
+
             })
             .catch((err) => console.log(err));
     }, []);
@@ -56,7 +60,32 @@ export default function UploadAttendance() {
     }
 
     function handleUpload(e) {
-        e.preventDefault();
+        e.preventDefault()
+
+        const formattedDate = new Date(date).toISOString().split("T")[0];
+
+        axios.post("http://localhost:4000/uploadAttendance", {
+            attendances,
+            selectedCourse,
+            formattedDate
+        }, {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+            }
+        })
+
+            .then((res) => {
+                console.log(res)
+                setAttendances([])
+                setSuccess(res.data.message)
+                setError("")
+            })
+            .catch(err => {
+                console.log(err)
+                setError(err.data.message)
+                setSuccess("")
+            })
+
     }
 
     function handleToggle(attendanceId) {
@@ -104,6 +133,13 @@ export default function UploadAttendance() {
                 <button className="find-button">FIND</button>
             </form>
 
+            {
+                success && <div>{success}</div>
+            }
+
+            {
+                error && <div>{error}</div>
+            }
             <table className="attendance-table">
                 <thead>
                     <tr>
