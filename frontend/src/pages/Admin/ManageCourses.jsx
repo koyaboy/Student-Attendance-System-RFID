@@ -86,7 +86,7 @@ export default function ManageCourses() {
                                 <td>{course.description}</td>
                                 <td>
                                     {course.instructor.map((instructor) => (
-                                        <span key={instructor._id}>{instructor.title}. {instructor.firstname} {instructor.lastname}</span>
+                                        <span key={instructor._id}>{instructor.title}. {instructor.firstname} {instructor.lastname}, </span>
                                     ))}
                                 </td>
 

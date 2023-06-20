@@ -8,7 +8,6 @@ export default function Home() {
     const [courses, setCourses] = useState([])
     const { user } = useAuthContext()
 
-
     useEffect(() => {
         axios.get(`http://localhost:4000/courses/${user.username}`, {
             headers: {
@@ -24,7 +23,7 @@ export default function Home() {
     return (
         <>
             {courses.map((course) => (
-                <div className="card">
+                <div key={course._id} className="card">
                     <div className="card-header">
                         <h3 className="course-title">{course.title}</h3>
                         <p className="course-code">{course.code}</p>
