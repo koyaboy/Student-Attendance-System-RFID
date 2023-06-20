@@ -64,14 +64,14 @@ export default function UploadAttendance() {
 
         const formattedDate = new Date(date).toISOString().split("T")[0];
 
-        axios.post("http://localhost:4000/uploadAttendance", {
+        axios.post("http://localhost:4000/teacher/uploadAttendance", {
             attendances,
             selectedCourse,
             formattedDate
         }, {
             headers: {
                 Authorization: `Bearer ${user.token}`,
-            }
+            },
         })
 
             .then((res) => {
@@ -82,7 +82,7 @@ export default function UploadAttendance() {
             })
             .catch(err => {
                 console.log(err)
-                setError(err.data.message)
+                setError(err.response.data.message)
                 setSuccess("")
             })
 
@@ -130,7 +130,7 @@ export default function UploadAttendance() {
                     className="date-input"
                 />
 
-                <button className="find-button">FIND</button>
+                <button className="find-button">DISPLAY</button>
             </form>
 
             {
