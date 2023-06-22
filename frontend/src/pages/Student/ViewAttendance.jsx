@@ -4,6 +4,8 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 
 import axios from "axios";
 
+import "../../styles/Student/ViewAttendance.css"
+
 export default function ViewAttendance() {
     const { user } = useAuthContext()
 
@@ -52,49 +54,56 @@ export default function ViewAttendance() {
 
     return (
         <>
-            <form onSubmit={ViewAttendance}>
+            <form className="attendance-form" onSubmit={ViewAttendance}>
                 <label htmlFor="selectedCourse">SELECT COURSE</label>
                 <select
                     id="selectedCourse"
                     name="selectedCourse"
                     value={selectedCourse}
                     onChange={(e) => setSelectedCourse(e.target.value)}
+                    className="course-select"
                 >
                     <option value="">-- SELECT COURSE --</option>
                     {courses &&
                         courses.map((course) => (
-                            <>
-                                <option value={course._id}>{course.code}</option>
-                            </>
+                            <option key={course._id} value={course._id}>{course.code}</option>
                         ))
                     }
-
                 </select>
 
-
-                <button onClick={(e) => ViewAttendance(e, student.username, selectedCourse)}> VIEW ATTENDANCE</button>
-
-
+                <button
+                    type="submit"
+                    onClick={(e) => ViewAttendance(e, student.username, selectedCourse)}
+                    className="view-attendance-btn"
+                >
+                    VIEW ATTENDANCE
+                </button>
             </form>
 
-            <table>
+            <table className="attendance-table">
                 <thead>
                     <tr>
-                        <td>Date</td>
-                        <td>Present</td>
+                        <th>Date</th>
+                        <th>Present</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {attendanceData &&
-                        attendanceData.map((attendance) => (
-                            <tr>
-                                <td>{attendance.date}</td>
-                                <td>{attendance.present ? "1" : "0"}</td>
-                            </tr>
-                        ))}
+                        attendanceData.map((attendance) => {
+                            const date = new Date(attendance.date);
+                            const formattedDate = date.toLocaleDateString('en-GB'); // Change 'en-GB' to your desired locale
+
+                            return (
+                                <tr key={attendance.date}>
+                                    <td>{formattedDate}</td>
+                                    <td>{attendance.verified ? "1" : "0"}</td>
+                                </tr>
+                            );
+                        })}
                 </tbody>
             </table>
         </>
+
     )
 }

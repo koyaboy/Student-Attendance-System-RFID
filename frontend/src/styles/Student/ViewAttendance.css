@@ -1,0 +1,36 @@
+/* styles.css */
+.attendance-form {
+    margin-bottom: 20px;
+}
+
+.course-select {
+    width: 200px;
+}
+
+.view-attendance-btn {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.attendance-table {
+    width: 50%;
+    border-collapse: collapse;
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.attendance-table th {
+    font-weight: bold;
+}
+
+.attendance-table td {
+    vertical-align: middle;
+}
