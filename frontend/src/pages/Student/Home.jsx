@@ -15,6 +15,7 @@ export default function Home() {
             }
         })
             .then((res) => {
+                console.log(res)
                 setCourses(res.data)
             })
             .catch(error => console.log(error))
@@ -22,25 +23,27 @@ export default function Home() {
 
     return (
         <>
-            {courses.map((course) => (
-                <div key={course._id} className="card">
-                    <div className="card-header">
-                        <h3 className="course-title">{course.title}</h3>
-                        <p className="course-code">{course.code}</p>
-                    </div>
-                    <div className="card-body">
-                        <p className="course-description">{course.description}</p>
-                        <p className="course-details">Instructor:
-                            {course.instructor.map((instructor) => (
-                                <span key={instructor._id}>{instructor.title}. {instructor.firstname} {instructor.lastname}</span>
-                            )
+            <div className="course-cards-wrapper">
+                {courses.map((course) => (
+                    <div key={course._id} className="card">
+                        <div className="card-header">
+                            <h3 className="course-title">{course.title}</h3>
+                            <p className="course-code">{course.code}</p>
+                        </div>
+                        <div className="card-body">
+                            <p className="course-description">Description: {course.description}</p>
+                            <p className="course-details">Instructor:
+                                {course.instructor.map((instructor) => (
+                                    <strong><span key={instructor._id}> {instructor.title}. {instructor.firstname} {instructor.lastname}</span></strong>
+                                )
 
-                            )}
+                                )}
 
-                        </p>
+                            </p>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </>
     );
 }
