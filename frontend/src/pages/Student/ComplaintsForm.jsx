@@ -9,6 +9,7 @@ export default function ComplaintsForm() {
     const [selectedCourse, setSelectedCourse] = useState("")
     const [dateMissed, setDateMissed] = useState("")
     const [reason, setReason] = useState("")
+    const [photo, setPhoto] = useState([])
     const [isCompleted, setIsCompleted] = useState(false)
 
     const [successful, setSuccessful] = useState(false)
@@ -27,40 +28,50 @@ export default function ComplaintsForm() {
             .catch(error => console.log(error))
     }, [])
 
-    function handleSubmit(e) {
-        e.preventDefault()
 
-        axios.post(`http://localhost:4000/complaintsform/${username}`, {
-            username,
-            selectedCourse,
-            dateMissed,
-            reason,
-            isCompleted
-        }, {
-            headers: {
-                Authorization: `Bearer ${user.token}`
-            }
-        })
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append("username", username);
+        formData.append("selectedCourse", selectedCourse);
+        formData.append("dateMissed", dateMissed);
+        formData.append("reason", reason);
+        formData.append("isCompleted", isCompleted);
+        formData.append("photo", photo); // Append the photo to the FormData
+
+        axios
+            .post(`http://localhost:4000/complaintsform/${username}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${user.token}`,
+                },
+            })
             .then((res) => {
-                setSuccessful(true)
+
                 console.log(res);
-                setSelectedCourse("")
-                setDateMissed("")
-                setReason("")
+                setSelectedCourse("");
+                setDateMissed("");
+                setReason("");
+                setSuccessful(true);
+                setError(false)
             })
-            .catch(err => {
-                setSuccessful(false)
-                setError("Something went wrong")
-            })
+            .catch((err) => {
+                setSuccessful(false);
+                setError(true);
+            });
     }
 
     return (
         <div className="container">
-            <h2 className="title">WE ARE HERE TO ASSIST YOU !!</h2>
-            <p className="complaints"><strong>Please lodge complaints within 48 hours of attendance issue</strong></p>
+
+            <div className="complaints-form-heading">
+                <h2 className="title">WE ARE HERE TO ASSIST YOU !!</h2>
+                <p className="complaints"><strong>Please lodge complaints within 48 hours of attendance issue</strong></p>
+            </div>
 
             <div className="complaintsform">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} encType="multipart/form-data">
                     <div className="message">
                         {successful && <div>Complaint sent successfully</div>}
                         {error && <div>Error occurred</div>}
@@ -110,24 +121,31 @@ export default function ComplaintsForm() {
                     <br />
                     <br />
 
-                    <label
-                        htmlFor="photoEvidence"
-                        className="photoEvidence"
-                    >
-                        Photo Evidence
-                    </label>
-                    <br />
-                    <input
-                        type="file"
-                        id="photoEvidence"
-                        name="photoEvidence"
-                    />
-                    <br />
+                    <div className="photo-container">
+
+                        <label
+                            className="photo-label"
+                            htmlFor="photo"
+                        >
+                            Photo Evidence
+                        </label>
+
+                        <input
+                            type="file"
+                            id="photoEvidence"
+                            name="photo"
+                            className="photo-input"
+                            onChange={(e) => setPhoto(e.target.files[0])}
+                        />
+                        {/* <br /> */}
+                    </div>
+
+
                     <button className="submit">SUBMIT</button>
 
                     <div className="message">
-                        {successful && <div>Complaint sent successfully</div>}
-                        {error && <div>Error occurred</div>}
+                        {successful && <div className="message-success">Complaint sent successfully</div>}
+                        {error && <div className="message-error">Error occurred</div>}
                     </div>
 
                 </form>

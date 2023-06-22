@@ -117,6 +117,7 @@ export default function Complaints() {
         })
             .then(res => {
                 if (res.status === 200) {
+                    console.log(res.data)
                     setComplaints((prevComplaint) => prevComplaint.filter((complaint) => complaint._id !== complaintId)
                     )
                 }
@@ -147,6 +148,7 @@ export default function Complaints() {
                             <th className="table-header">Class Missed</th>
                             <th className="table-header">Date Missed</th>
                             <th className="table-header">Reason</th>
+                            <th className="table-header">Photo Evidence</th>
                             <th className="table-header">Action</th>
                         </tr>
                     </thead>
@@ -157,6 +159,14 @@ export default function Complaints() {
                                 <td className="table-cell">{complaint.selectedCourse}</td>
                                 <td className="table-cell">{complaint.dateMissed}</td>
                                 <td className="table-cell">{complaint.reason}</td>
+                                <td className="table-cell">
+                                    <a href={complaint.photoUrl}>
+                                        <img className="complaint-photo" src={complaint.photoUrl} alt="complaint" />
+                                    </a>
+
+                                </td>
+
+
                                 <td className="table-cell action">
                                     <input
                                         type="checkbox"
