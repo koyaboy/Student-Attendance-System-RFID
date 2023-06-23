@@ -7,6 +7,7 @@ import { useAuthContext } from './hooks/useAuthContext'
 /*STUDENT*/
 
 import Dashboard from "./pages/Student/Dashboard"
+import RegisterCourses from './pages/Student/RegisterCourses';
 import ViewAttendance from "./pages/Student/ViewAttendance"
 import ComplaintsForm from './pages/Student/ComplaintsForm'
 import Home from './pages/Student/Home'
@@ -71,6 +72,7 @@ function App() {
         {role == "S" ? (
           <Route path="/" element={<Dashboard />}>
             <Route path="" element={<Home />} />
+            <Route path="/registerCourses" element={<RegisterCourses />} />
             <Route path="/viewattendance" element={<ViewAttendance />} />
             <Route path="/complaintsform" element={<ComplaintsForm />} />
           </Route>
