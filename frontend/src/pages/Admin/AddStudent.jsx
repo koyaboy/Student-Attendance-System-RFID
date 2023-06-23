@@ -11,7 +11,7 @@ export default function ManageStudents() {
     const [username, setUserName] = useState("")
     const [password, setPassword] = useState("")
     const [level, setLevel] = useState("")
-    const [courses, setCourses] = useState([])
+    // const [courses, setCourses] = useState([])
     const [rfidTag, setRfidTag] = useState("")
     const [department, setDepartment] = useState("Computer Science")
     const [role, setRole] = useState("S")
@@ -23,19 +23,19 @@ export default function ManageStudents() {
 
 
 
-    useEffect(() => {
-        axios.get("http://localhost:4000/admin/getCourses", {
-            headers: {
-                Authorization: `Bearer ${user.token}`
-            }
-        })
+    // useEffect(() => {
+    //     axios.get("http://localhost:4000/admin/getCourses", {
+    //         headers: {
+    //             Authorization: `Bearer ${user.token}`
+    //         }
+    //     })
 
-            .then((res) => {
-                setCourses(res.data)
-            })
+    //         .then((res) => {
+    //             setCourses(res.data)
+    //         })
 
-            .catch(err => console.log(err))
-    }, [])
+    //         .catch(err => console.log(err))
+    // }, [])
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -55,7 +55,7 @@ export default function ManageStudents() {
             level,
             department,
             role,
-            courses,
+            // courses,
             rfidTag,
             actionBy
         }, {
@@ -69,6 +69,7 @@ export default function ManageStudents() {
                 setUserName("")
                 setPassword("")
                 setLevel("")
+                setRfidTag("")
                 setSuccess(true)
                 setError(false)
                 console.log(res)
