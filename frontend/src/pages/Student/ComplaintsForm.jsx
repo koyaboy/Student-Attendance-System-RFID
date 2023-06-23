@@ -71,13 +71,13 @@ export default function ComplaintsForm() {
             </div>
 
             <div className="complaintsform">
-                <form onSubmit={handleSubmit} encType="multipart/form-data">
+                <form onSubmit={handleSubmit} encType="multipart/form-data" className="complaintsform-form">
                     <div className="message">
                         {successful && <div>Complaint sent successfully</div>}
                         {error && <div>Error occurred</div>}
                     </div>
 
-                    <label htmlFor="classMissed">Class Missed</label>
+                    <label htmlFor="classMissed" className="complaintsform-label">Class Missed</label>
                     <br />
                     <select
                         name="classMissed"
@@ -96,7 +96,7 @@ export default function ComplaintsForm() {
                     <br />
                     <br />
 
-                    <label htmlFor="dateMissed">Date Missed</label>
+                    <label htmlFor="dateMissed" className="complaintsform-label">Date Missed</label>
                     <br />
                     <input
                         type="date"
@@ -108,7 +108,7 @@ export default function ComplaintsForm() {
                     <br />
                     <br />
 
-                    <label htmlFor="Reason">Reason</label>
+                    <label htmlFor="Reason" className="complaintsform-label">Reason</label>
                     <br />
                     <textarea
                         name="Reason"

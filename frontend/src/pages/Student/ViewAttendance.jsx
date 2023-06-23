@@ -55,7 +55,7 @@ export default function ViewAttendance() {
     return (
         <>
             <form className="attendance-form" onSubmit={ViewAttendance}>
-                <label htmlFor="selectedCourse">SELECT COURSE</label>
+                <label htmlFor="selectedCourse" className="attendance-form-select-label">SELECT COURSE</label>
                 <select
                     id="selectedCourse"
                     name="selectedCourse"

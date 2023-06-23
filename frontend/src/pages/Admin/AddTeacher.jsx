@@ -4,7 +4,7 @@ import axios from "axios"
 import { useAuthContext } from "../../hooks/useAuthContext"
 import "../../styles/Admin/AddTeacher.css"
 
-export default function ManageTeachers() {
+export default function AddTeacher() {
 
     const { user } = useAuthContext()
 
