@@ -1,5 +1,6 @@
 .manage-courses-container {
     margin-top: 20px;
+    width: 60%;
 }
 
 .manage-courses-heading {
@@ -15,6 +16,7 @@
 .manage-courses-table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 2em;
 }
 
 .manage-courses-table th {

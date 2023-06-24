@@ -118,17 +118,20 @@ export default function UploadAttendance() {
                     ))}
                 </select>
 
-                <label htmlFor="date" className="date-label">
-                    Date
-                </label>
-                <input
-                    type="date"
-                    name="date"
-                    id="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className="date-input"
-                />
+                <div className="upload-form-date">
+                    <label htmlFor="date" className="date-label">
+                        Date
+                    </label>
+                    <input
+                        type="date"
+                        name="date"
+                        id="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        className="date-input"
+                    />
+
+                </div>
 
                 <button className="find-button">DISPLAY</button>
             </form>

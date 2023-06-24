@@ -33,7 +33,6 @@ export default function ComplaintsForm() {
         e.preventDefault();
 
         const formData = new FormData();
-        formData.append("username", username);
         formData.append("selectedCourse", selectedCourse);
         formData.append("dateMissed", dateMissed);
         formData.append("reason", reason);
@@ -132,7 +131,7 @@ export default function ComplaintsForm() {
 
                         <input
                             type="file"
-                            id="photoEvidence"
+                            id="photo"
                             name="photo"
                             className="photo-input"
                             onChange={(e) => setPhoto(e.target.files[0])}

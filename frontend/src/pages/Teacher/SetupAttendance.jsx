@@ -17,6 +17,9 @@ export default function SetupAttendance() {
     const [attendance2Start, setAttendance2Start] = useState("");
     const [attendance2End, setAttendance2End] = useState("");
 
+    const [success, setSuccess] = useState(false)
+    const [error, setError] = useState(false)
+
     // Get teacher Username from Local Storage
     const storedUser = localStorage.getItem("user");
     let username = "";
@@ -70,8 +73,15 @@ export default function SetupAttendance() {
                 setAttendance1End("")
                 setAttendance2Start("")
                 setAttendance2End("")
+
+                setSuccess("Setup Successful")
+                setError(false)
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err)
+                setError(err.response.data.message)
+                setSuccess(false)
+            });
     }
 
     return (
@@ -91,6 +101,11 @@ export default function SetupAttendance() {
                     </option>
                 ))}
             </select>
+
+            <div className="message">
+                {success && <div className="message-success">{success}</div>}
+                {error && <div className="message-error">{error}</div>}
+            </div>
 
             <form onSubmit={handleSubmit} className="setup-form">
                 <label htmlFor="date" className="setup-label">
@@ -178,6 +193,11 @@ export default function SetupAttendance() {
                 />
 
                 <button className="setup-button">SETUP</button>
+
+                <div className="message">
+                    {success && <div className="message-success">{success}</div>}
+                    {error && <div className="message-error">{error}</div>}
+                </div>
             </form>
         </>
     );

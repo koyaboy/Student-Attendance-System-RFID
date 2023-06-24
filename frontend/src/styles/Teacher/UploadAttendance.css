@@ -1,4 +1,6 @@
 .upload-form {
+    display: flex;
+    flex-direction: centre;
     margin-bottom: 16px;
 }
 
@@ -11,8 +13,15 @@
     margin-right: 8px;
 }
 
+.upload-form-date {
+    display: flex;
+    flex-direction: column;
+}
+
 .date-label {
     margin-right: 8px;
+    font-size: 1.1rem;
+    margin-bottom: 0.2em;
 }
 
 .date-input {
