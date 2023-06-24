@@ -133,7 +133,10 @@ export default function UploadAttendance() {
 
                 </div>
 
-                <button className="find-button">DISPLAY</button>
+                <div className="find-button-container">
+                    <button className="find-button">DISPLAY</button>
+                </div>
+
             </form>
 
             {
