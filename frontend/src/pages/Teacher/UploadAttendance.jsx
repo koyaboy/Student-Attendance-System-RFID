@@ -179,7 +179,7 @@ export default function UploadAttendance() {
             </table>
 
             <form onSubmit={handleUpload}>
-                {attendances && <button className="upload-button">UPLOAD</button>}
+                {attendances && <button className="upload-button">RE-UPLOAD</button>}
             </form>
         </>
     );

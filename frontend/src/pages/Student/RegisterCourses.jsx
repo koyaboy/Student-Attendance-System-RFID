@@ -76,7 +76,7 @@ export default function RegisterCourses() {
                 {success && <div className="message-success">{success}</div>}
                 {error && <div className="message-error">{error}</div>}
             </div>
-            <h2 className="register-courses-heading">Register Courses</h2>
+            <h2 className="register-courses-heading">Available Courses</h2>
 
             <form onSubmit={handleSubmit} className="register-courses-form">
                 {courses &&
